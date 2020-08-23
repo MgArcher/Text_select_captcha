@@ -21,7 +21,7 @@ yoloV3模型 yolov3_ckpt.pth （用于框选出图片中的文字和标题）
 **模型结构**  
 模型结构存放在src/utils中
 
-##环境准备
+## 环境准备
 1、安装python3.6（建议使用anconda）  
 2、建立虚拟环境  
 3、pip install -r requirements.txt
@@ -94,10 +94,11 @@ yoloV3模型 yolov3_ckpt.pth （用于框选出图片中的文字和标题）
 
 
 # 打赏
-如果本项目对您有帮助 那就打个赏把
+如果觉得我的项目对您有用，请随意打赏。您的支持将鼓励我继续创作！  
+**o(*￣︶￣*)o**  
 ![Image text](./doc//20200823220018.png)  
 如有什么问题欢迎各位在lssues中提问  
-如有其他问题或需求请联系邮件**yj970814@163.com**
+有其他问题或需求请联系邮件**yj970814@163.com**
 
 # 参考资料
 https://github.com/ypwhs/captcha_break  
@@ -105,3 +106,5 @@ https://github.com/eriklindernoren/PyTorch-YOLOv3
 https://github.com/meijieru/crnn.pytorch  
 https://github.com/chineseocr/chineseocr  
 https://github.com/JiageWang/hand-writing-recognition
+
+### 点个**star**再走呗！ 
