@@ -1,0 +1,3 @@
+#过滤文件夹Debug,Release,obj
+.idea/
+__pycache__/

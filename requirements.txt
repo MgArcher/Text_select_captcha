@@ -1,0 +1,10 @@
+numpy==1.18.5
+torch>=1.0
+torchvision
+tensorboard
+terminaltables
+matplotlib
+pillow
+selenium
+requests
+numpy
