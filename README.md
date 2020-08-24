@@ -27,7 +27,8 @@ yoloV3模型 yolov3_ckpt.pth （用于框选出图片中的文字和标题）
 2、建立虚拟环境  
 3、pip install -r requirements.txt
 ## 如何使用
-**python demo.py**  
+
+```python demo.py```  
 结果如下  
 ```json
 [
@@ -87,7 +88,7 @@ yoloV3模型 yolov3_ckpt.pth （用于框选出图片中的文字和标题）
 
 ## 效果演示
 **以bilbil登录验证码为例**  
-**python bilbil.py**  
+```python bilbil.py```  
 ![Image text](./doc/bilibili_1.gif)  
 ![Image text](./doc/bilibili_2.gif)  
 
