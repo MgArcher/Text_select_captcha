@@ -7,4 +7,3 @@ matplotlib
 pillow
 selenium
 requests
-numpy
