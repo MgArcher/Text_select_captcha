@@ -61,7 +61,7 @@ def run(path):
     return text_predict(location_predict(path), path)
 
 if __name__ == "__main__":
-    path = "test/img_10.jpg"
+    path = "test/img_2.jpg"
 
     start = time.time()
     res = run(path)

@@ -1,5 +1,6 @@
 # 点击选择文字验证码识别
 文字点选、选字、选择文字验证码识别  
+![Image text](./doc/fc2b0.png)    
 **特点**  
 纯pytorch实现，无需安装其他复杂依赖  
 单个模型在50M左右，总共加起来134M,且有进一步缩小的空间  
@@ -85,7 +86,6 @@ yoloV3模型 yolov3_ckpt.pth （用于框选出图片中的文字和标题）
 ]
 ```
 ![Image text](./doc/123.jpg)  
-
 ## 效果演示
 **以bilbil登录验证码为例**  
 ```python bilbil.py```  
