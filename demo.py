@@ -13,7 +13,10 @@ import matplotlib.pyplot as plt
 
 from src.orientation import location_predict
 from src.discern import text_predict
-plt.rcParams['font.family'] = ['STFangsong']
+# plt.rcParams['font.family'] = ['STFangsong']
+plt.rcParams['font.sans-serif'] = ['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus'] = False #用来正常显示负号
+
 
 def to_selenium(res):
     place = []

@@ -30,7 +30,7 @@ if cnn_opt.GPU:
 else:
     device = torch.device("cpu")
 net = ConvNet(cnn_opt.N_CLASS).to(device)
-net.load_state_dict(torch.load(cnn_opt.model_path))
+net.load_state_dict(torch.load(cnn_opt.model_path, map_location="cuda:0" if torch.cuda.is_available() and cnn_opt.GPU else "cpu"))
 net.eval()
 
 """crnn  标题文本识别"""
