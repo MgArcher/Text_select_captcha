@@ -82,6 +82,7 @@ def text_predict(res, image_path):
     X = torch.zeros((len([i for i in res if i.get("classes") == "target"]), 3, cnn_opt.HEIGHT, cnn_opt.WIDTH))
     x_number = 0
     title = ""
+    sign = False
     for i, r in enumerate(res):
         classes = r.get("classes")
         crop = r.get("crop")
@@ -95,21 +96,22 @@ def text_predict(res, image_path):
             out = out.convert('RGB')
             X[x_number] = to_tensor(out)
             x_number += 1
+            sign = True
         if classes == "title":
             im = image_[y1:y2, x1:x2]
             partImg = Image.fromarray(im)
             title = crnn.predict(partImg)
 
-    text_list = get_text(X, title)
-    x_number = 0
-    for i, r in enumerate(res):
-        classes = r.get("classes")
-        if classes == "target":
-            res[i]['content'] = text_list[x_number]
-            x_number += 1
-        else:
-            res[i]['content'] = title
-
+    if sign:
+        text_list = get_text(X, title)
+        x_number = 0
+        for i, r in enumerate(res):
+            classes = r.get("classes")
+            if classes == "target":
+                res[i]['content'] = text_list[x_number]
+                x_number += 1
+            else:
+                res[i]['content'] = title
 
     return res
 

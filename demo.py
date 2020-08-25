@@ -34,6 +34,7 @@ def to_selenium(res):
                     )
     return place
 
+
 def draw(img_path, data):
     "绘制识别结果"
     image = Image.open(img_path)
@@ -63,8 +64,9 @@ def draw(img_path, data):
 def run(path):
     return text_predict(location_predict(path), path)
 
+
 if __name__ == "__main__":
-    path = "test/img_2.jpg"
+    path = "test/123.jpg"
 
     start = time.time()
     res = run(path)
