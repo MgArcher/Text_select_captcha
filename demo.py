@@ -73,13 +73,14 @@ def run_word_order(path):
 
 
 if __name__ == "__main__":
-    path = "test/img_2.jpg"
+    path = "test/3.jpg"
 
     start = time.time()
     res = run_click(path)
     print(res)
     print("识别耗时为：", time.time() - start)
     res = run_word_order(path)
+    draw(path, res)
     print(res)
     print("识别耗时为：", time.time() - start)
     draw(path, res)

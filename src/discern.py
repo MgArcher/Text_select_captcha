@@ -67,8 +67,11 @@ def get_text(X, title):
         for j in title_Y:
             y.append(i[j])
         # 获得其中的最大值
-        y = np.mat(y)
-        text_list.append(title[np.argmax(y)])
+        if y:
+            y = np.mat(y)
+            text_list.append(title[np.argmax(y)])
+        else:
+            text_list.append(cnn_opt.CHARACTERS[torch.argmax(i)])
     return text_list
 
 
