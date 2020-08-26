@@ -65,9 +65,10 @@ class BilBil(object):
             res = res.content
             with open(f"bilbil.jpg", 'wb') as f:
                 f.write(res)
-        res = demo.run("bilbil.jpg")
+        res = demo.run_click("bilbil.jpg")
+        print(res)
         plan = demo.to_selenium(res)
-
+        print(plan)
         # xpath = "/html/body/div[2]/div[2]/div[6]/div/div/div[2]/div[1]/div/div[2]"
         # logo = self.wait.until(EC.presence_of_element_located(
         #     (By.XPATH, xpath)))

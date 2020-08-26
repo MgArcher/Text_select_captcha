@@ -1,3 +1,4 @@
 #过滤文件夹Debug,Release,obj
 .idea/
 __pycache__/
+bilbil.jpg

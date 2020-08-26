@@ -7,9 +7,6 @@
 @file: demo2.py
 @time: 2020/8/17 16:00
 """
-"""
-cnn单个文字识别
-"""
 import torch
 import numpy as np
 from PIL import Image

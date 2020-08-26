@@ -44,3 +44,7 @@ class cnn_opt(OPT):
     HEIGHT = 64
     N_CLASS = len(OPT.CHARACTERS)
 
+
+"""语序模型"""
+class kenlm_opt():
+    model_path = 'model/people_chars_lm.klm'

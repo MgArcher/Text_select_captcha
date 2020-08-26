@@ -11,8 +11,9 @@ import time
 from PIL import Image
 import matplotlib.pyplot as plt
 
-from src.orientation import location_predict
-from src.discern import text_predict
+from src import orientation
+from src import discern
+from src import word_order
 # plt.rcParams['font.family'] = ['STFangsong']
 plt.rcParams['font.sans-serif'] = ['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus'] = False #用来正常显示负号
@@ -61,15 +62,24 @@ def draw(img_path, data):
     plt.show()
 
 
-def run(path):
-    return text_predict(location_predict(path), path)
+def run_click(path):
+    """方式一"""
+    return discern.text_predict(orientation.location_predict(path), path)
+
+
+def run_word_order(path):
+    """方式二"""
+    return word_order.text_predict(orientation.location_predict(path), path)
 
 
 if __name__ == "__main__":
-    path = "test/123.jpg"
+    path = "test/img_2.jpg"
 
     start = time.time()
-    res = run(path)
+    res = run_click(path)
+    print(res)
+    print("识别耗时为：", time.time() - start)
+    res = run_word_order(path)
     print(res)
     print("识别耗时为：", time.time() - start)
     draw(path, res)
@@ -79,7 +89,7 @@ if __name__ == "__main__":
     #     print(f.path)
     #     path = f.path
     #     s = time.time()
-    #     res = text_predict(location_predict(path), path)
+    #     res = run_word_order(path)
     #     print(res)
     #     print("识别耗时为：", time.time() - s)
     #     draw(path, res)
