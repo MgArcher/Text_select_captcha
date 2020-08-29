@@ -96,7 +96,7 @@ if __name__ == "__main__":
     # draw(path, res)
 
     import os
-    for f in os.scandir(r'error'):
+    for f in os.scandir(r'test'):
         print(f.path)
         path = f.path
         s = time.time()
