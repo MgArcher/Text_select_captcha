@@ -33,7 +33,7 @@ from src.setting import yolo_opt as opt
 
 """加载模型"""
 if opt.GPU:
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 else:
     device = torch.device("cpu")
 # Set up model

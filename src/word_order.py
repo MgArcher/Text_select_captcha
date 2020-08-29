@@ -20,6 +20,7 @@ from torchvision.transforms.functional import to_tensor
 
 from src.utils.cnn_model import ConvNet
 from src.utils.network_torch import CRNN
+from src.utils.resnet import resnet18
 from src.setting import kenlm_opt
 from src.setting import cnn_opt
 
@@ -29,6 +30,7 @@ if cnn_opt.GPU:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 else:
     device = torch.device("cpu")
+# net = ConvNet(cnn_opt.N_CLASS).to(device)
 net = ConvNet(cnn_opt.N_CLASS).to(device)
 net.load_state_dict(torch.load(cnn_opt.model_path, map_location="cuda:0" if torch.cuda.is_available() and cnn_opt.GPU else "cpu"))
 net.eval()
@@ -120,6 +122,3 @@ def text_predict(res, image_path):
 
 
 
-# string = "恍惚恍惚"
-# a = n_gram(string)
-# print(a)

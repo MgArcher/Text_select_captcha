@@ -7,6 +7,8 @@
 @file: demo.py
 @time: 2020/8/13 13:44
 """
+import cv2
+import random
 import time
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -39,9 +41,10 @@ def to_selenium(res):
 def draw(img_path, data):
     "绘制识别结果"
     image = Image.open(img_path)
+    image_ = plt.imread(img_path)
     # matrix = numpy.asarray(image)
 
-    plt.imshow(image, interpolation='none')
+    plt.imshow(image_, interpolation='none')
     current_axis = plt.gca()
     for box_ in data:
         box = box_['crop']
@@ -49,6 +52,14 @@ def draw(img_path, data):
         box_w = x2 - x1
         box_h = y2 - y1
 
+        if box_['classes'] == "target":
+            m = box_['content']
+            im = image_[y1:y2, x1:x2]
+            # try:
+            #     cv2.imencode('.jpg', im)[1].tofile(
+            #         'text_image1/' + str(random.randint(1000, 9999)) + '_' + m + '.jpg')
+            # except:
+            #     pass
         current_axis.add_patch(
             plt.Rectangle((x1, y1), box_w, box_h, color='blue', fill=False, linewidth=2))
         plt.text(
@@ -73,27 +84,28 @@ def run_word_order(path):
 
 
 if __name__ == "__main__":
-    path = "test/3.jpg"
+    # path = "test/img_4011.jpg"
+    # start = time.time()
+    # res = run_click(path)
+    # print(res)
+    # print("识别耗时为：", time.time() - start)
+    # res = run_word_order(path)
+    # draw(path, res)
+    # print(res)
+    # print("识别耗时为：", time.time() - start)
+    # draw(path, res)
 
-    start = time.time()
-    res = run_click(path)
-    print(res)
-    print("识别耗时为：", time.time() - start)
-    res = run_word_order(path)
-    draw(path, res)
-    print(res)
-    print("识别耗时为：", time.time() - start)
-    draw(path, res)
-
-    # import os
-    # for f in os.scandir('test'):
-    #     print(f.path)
-    #     path = f.path
-    #     s = time.time()
-    #     res = run_word_order(path)
-    #     print(res)
-    #     print("识别耗时为：", time.time() - s)
-    #     draw(path, res)
+    import os
+    for f in os.scandir(r'error'):
+        print(f.path)
+        path = f.path
+        s = time.time()
+        res = run_click(path)
+        print(res)
+        m = [i for i in res if i['classes'] == "title"]
+        print(m)
+        print("识别耗时为：", time.time() - s)
+        draw(path, res)
 
 
 

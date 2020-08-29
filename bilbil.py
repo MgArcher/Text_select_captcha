@@ -28,6 +28,7 @@ class BilBil(object):
         # self.browser.maximize_window()
         self.wait = WebDriverWait(self.browser, 30)
         self.url = "https://passport.bilibili.com/login"
+        self.ture = 0
 
     def __del__(self):
         self.browser.close()
@@ -66,38 +67,32 @@ class BilBil(object):
             with open(f"bilbil.jpg", 'wb') as f:
                 f.write(res)
         res = demo.run_click("bilbil.jpg")
-        print(res)
         plan = demo.to_selenium(res)
-        print(plan)
-        # xpath = "/html/body/div[2]/div[2]/div[6]/div/div/div[2]/div[1]/div/div[2]"
-        # logo = self.wait.until(EC.presence_of_element_located(
-        #     (By.XPATH, xpath)))
-        print(logo.location)
-        print(logo.size)
         X, Y = logo.location['x'], logo.location['y']
-        print(X, Y)
         lan_x = 259/334
         lan_y = 290/384
-        #     print(X+x, Y+y)
-        time.sleep(1)
-        # ActionChains(self.browser).move_by_offset(200, 0).click().perform()
         for p in plan:
             x, y = p['place']
-            print(x, y)
             ActionChains(self.browser).move_by_offset(X-40 + x*lan_x, Y + y*lan_y).click().perform()
             ActionChains(self.browser).move_by_offset(-(X-40 + x*lan_x), -(Y + y*lan_y)).perform()  # 将鼠标位置恢复到移动前
-            time.sleep(1)
+            time.sleep(0.5)
 
         xpath = "/html/body/div[2]/div[2]/div[6]/div/div/div[3]/a/div"
         self.click(xpath)
+        time.sleep(1)
+        try:
+            self.click(xpath)
+            # with open("bilbil.jpg", 'rb') as f:
+            #     data = f.read()
+            # with open(f"error/{int(time.time())}.jpg", 'wb') as f:
+            #     f.write(data)
+        except:
+            self.ture += 1
         print(res)
         print(plan)
-        time.sleep(1000)
+        print("".join([i['text']for i in plan]))
 
-
-
-
-
+        # time.sleep(1000)
 
 
 if __name__ == '__main__':
@@ -105,4 +100,7 @@ if __name__ == '__main__':
     start = time.time()
     jd = BilBil()
     jd.bibi()
+    # for i in range(100):
+    #     jd.bibi()
+    #     print(jd.ture)
     print(time.time() - start)
