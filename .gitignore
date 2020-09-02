@@ -10,3 +10,4 @@ error/
 demo.py/
 model/*.pth
 model/*.klm
+error2/

@@ -85,33 +85,34 @@ def run_word_order(path):
 
 if __name__ == "__main__":
 
-    path = "test/img_4011.jpg"
-    start = time.time()
-    res = run_click(path)
-    print(res)
-    print("识别耗时为：", time.time() - start)
-    draw(path, res)
+    # path = "test/img_4011.jpg"
+    # start = time.time()
+    # res = run_click(path)
+    # print(res)
+    # print("识别耗时为：", time.time() - start)
+    # draw(path, res)
+
     # res = run_word_order(path)
     # print(res)
     # print("识别耗时为：", time.time() - start)
     # draw(path, res)
     #
-    # import os
-    # n = 0
-    # for f in os.scandir(r'error'):
-    #     print(f.path)
-    #     path = f.path
-    #     s = time.time()
-    #     res = run_click(path)
-    #     print(res)
-    #     m = [i for i in res if i['classes'] == "title"]
-    #     print(m)
-    #     print("识别耗时为：", time.time() - s)
-    #     draw(path, res)
-    #     n = n + 1
-    #     if n > 10:
-    #         break
-    #
+    import os
+    n = 0
+    for f in os.scandir(r'error2'):
+        print(f.path)
+        path = f.path
+        s = time.time()
+        res = run_click(path)
+        print(res)
+        m = [i for i in res if i['classes'] == "title"]
+        print(m)
+        print("识别耗时为：", time.time() - s)
+        draw(path, res)
+        n = n + 1
+        # if n > 10:
+        #     break
+
 
 
 

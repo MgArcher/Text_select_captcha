@@ -84,7 +84,7 @@ class BilBil(object):
             self.click(xpath)
             with open("bilbil.jpg", 'rb') as f:
                 data = f.read()
-            with open(f"error/{int(time.time())}.jpg", 'wb') as f:
+            with open(f"error2/{int(time.time())}.jpg", 'wb') as f:
                 f.write(data)
         except:
             self.ture += 1
@@ -99,8 +99,9 @@ if __name__ == '__main__':
     import time
     start = time.time()
     jd = BilBil()
-    # jd.bibi()
-    for i in range(100):
-        jd.bibi()
-        print(jd.ture)
+    jd.bibi()
+    # for i in range(100):
+    #     print("第{}次".format(i + 1))
+    #     jd.bibi()
+    #     print(jd.ture)
     print(time.time() - start)
