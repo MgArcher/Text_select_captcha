@@ -19,7 +19,7 @@ def run_click(path):
 
 if __name__ == '__main__':
     import time
-    path = "test/img_4011.jpg"
+    path = "test/b.jpg"
     start = time.time()
     res = run_click(path)
     print(res)

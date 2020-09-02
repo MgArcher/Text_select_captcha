@@ -14,7 +14,6 @@ import matplotlib.pyplot as plt
 from torchvision.transforms.functional import to_tensor
 
 from src.utils.cnn_model import ConvNet
-from src.utils.resnet import resnet18
 from src.utils.network_torch import CRNN
 from src.setting import crnn_opt
 from src.setting import cnn_opt
@@ -49,18 +48,45 @@ crnn.eval()
 
 """加载模型"""
 
+def update_text(text_list, title):
+    res = [i[0] for i in text_list]
+    # 判断是否有重复的文字
+    if len(res) != len(set(res)):
+        # 判断标题长度与框出来的文字是否长度相同
+        if len(text_list) == len(title):
+            # 对出现了相同字符的字，把出现概率低的替换
+            no_text = set(title) - set([i[0] for i in text_list])
+            S = set()
+            W = set()
+            for i in range(len(text_list)):
+                if text_list[i][0] in S:
+                    W.add(text_list[i][0])
+                S.add(text_list[i][0])
+            for w in W:
+                qu = [i for i in text_list if i[0] == w]
+                u = max(qu, key=lambda x: x[1])
+                for i in qu:
+                    if i != u:
+                        number = text_list.index(i)
+                        # 随机给一个
+                        text_list[number] = (no_text.pop())
+
+            results = [i[0] for i in text_list]
+        else:
+            results = [i[0] for i in text_list]
+    else:
+        results = res
+    return results
+
 
 def get_text(X, title):
     # 获得每个字的可能概率
     if torch.cuda.is_available() and cnn_opt.GPU:
         X = X.cuda()
     outputs = net(X)
+    if cnn_opt.GPU:
+        outputs = outputs.cuda().data.cpu()
     text_list = []
-    # # 方式一  识别给每个框框中的字符
-    # for i in outputs:
-    #     text_list.append(cnn_opt.CHARACTERS[torch.argmax(i)])
-
-    # 方式二
     # 获取标签所在的字符位置
     title_Y = [cnn_opt.CHARACTERS.find(i) for i in title]
     # 选取标题中字符中概率最高的
@@ -71,10 +97,12 @@ def get_text(X, title):
         # 获得其中的最大值
         if y:
             y = np.mat(y)
-            text_list.append(title[np.argmax(y)])
+            text_list.append((title[np.argmax(y)], y.max()))
         else:
-            text_list.append(cnn_opt.CHARACTERS[torch.argmax(i)])
-    return text_list
+            text_list.append((cnn_opt.CHARACTERS[torch.argmax(i)], float(i.max())))
+    # 修改结果
+    results = update_text(text_list, title)
+    return results
 
 
 def text_predict(res, image_path):

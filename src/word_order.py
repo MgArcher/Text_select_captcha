@@ -13,14 +13,11 @@
 from itertools import permutations
 import kenlm
 import torch
-import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 from torchvision.transforms.functional import to_tensor
 
 from src.utils.cnn_model import ConvNet
-from src.utils.network_torch import CRNN
-from src.utils.resnet import resnet18
 from src.setting import kenlm_opt
 from src.setting import cnn_opt
 
