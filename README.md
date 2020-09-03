@@ -35,7 +35,7 @@
 卷积神经网络模型 cnn_iter.pth（用于识别图片中的文字）  
 卷积神经网络+CTCloss模型 ocr-lstm.pth（用于识别标题中的文字）   
 yoloV3模型 yolov3_ckpt.pth （用于框选出图片中的文字和标题）    
-kenlm统计语言模型 people_chars_lm.klm  （用于计算语序）
+kenlm统计语言模型 people_chars_lm.klm  （用于计算语序）  
 **模型结构**  
 模型结构存放在src/utils中
 
