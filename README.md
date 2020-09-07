@@ -27,8 +27,8 @@
 3、利用kenlm计算各种组合情况，选择困惑度最低的,获得正确的词语   
 ![Image text](./doc/xyj.png)   
 ##  模型文件  
-**下载链接**
-http://39.108.219.137/text_select_captcha/model
+**下载链接**   
+http://39.108.219.137/text_select_captcha/model    
   **百度网盘**  
 链接：https://pan.baidu.com/s/1FF6A-YZAE1Bofgswp-D29w  
 提取码：ceow  
