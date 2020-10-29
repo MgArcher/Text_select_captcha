@@ -69,6 +69,7 @@ class BilBil(object):
         res = demo.run_click("bilbil.jpg")
         plan = demo.to_selenium(res)
         X, Y = logo.location['x'], logo.location['y']
+        print(X, Y)
         lan_x = 259/334
         lan_y = 290/384
         for p in plan:
@@ -88,6 +89,7 @@ class BilBil(object):
                 f.write(data)
         except:
             self.ture += 1
+            demo.draw("bilbil.jpg", res)
         print(res)
         print(plan)
         print("".join([i['text']for i in plan]))
@@ -100,7 +102,7 @@ if __name__ == '__main__':
     start = time.time()
     jd = BilBil()
     jd.bibi()
-    # for i in range(100):
+    # for i in range(1000):
     #     print("第{}次".format(i + 1))
     #     jd.bibi()
     #     print(jd.ture)
