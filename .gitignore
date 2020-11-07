@@ -7,7 +7,6 @@ text_image1/
 text_image2/
 text_image3/
 error/
-demo.py
 model/*.pth
 model/*.klm
 error2/
