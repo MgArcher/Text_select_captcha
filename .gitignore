@@ -8,6 +8,7 @@ text_image2/
 text_image3/
 error/
 demo.py
+tes_bilbil.py
 model/*.pth
 model/*.klm
 error2/
