@@ -18,25 +18,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-import mode_one
-
-
-
-def to_selenium(res):
-    place = []
-    title = [i['content'] for i in res if i['classes'] == "title"][0]
-    for t in title:
-        for item in res:
-            if item['classes'] == "target":
-                x1, y1, x2, y2 = item['crop']
-                if item['content'] == t:
-                    place.append(
-                        {
-                            "text": t,
-                            "place": [(x1 + x2)/2, (y1 + y2)/2]
-                        }
-                    )
-    return place
+import demo
 
 
 class BilBil(object):
@@ -84,8 +66,8 @@ class BilBil(object):
             res = res.content
             with open(f"bilbil.jpg", 'wb') as f:
                 f.write(res)
-        res = mode_one.run_click("bilbil.jpg")
-        plan = to_selenium(res)
+        res = demo.run_click("bilbil.jpg")
+        plan = demo.to_selenium(res)
         X, Y = logo.location['x'], logo.location['y']
         print(X, Y)
         lan_x = 259/334
@@ -98,11 +80,21 @@ class BilBil(object):
 
         xpath = "/html/body/div[2]/div[2]/div[6]/div/div/div[3]/a/div"
         self.click(xpath)
-
+        time.sleep(1)
+        try:
+            self.click(xpath)
+            with open("bilbil.jpg", 'rb') as f:
+                data = f.read()
+            with open(f"error2/{int(time.time())}.jpg", 'wb') as f:
+                f.write(data)
+        except:
+            self.ture += 1
+            demo.draw("bilbil.jpg", res)
         print(res)
         print(plan)
         print("".join([i['text']for i in plan]))
-        time.sleep(100)
+
+        # time.sleep(1000)
 
 
 if __name__ == '__main__':
@@ -110,4 +102,8 @@ if __name__ == '__main__':
     start = time.time()
     jd = BilBil()
     jd.bibi()
+    # for i in range(1000):
+    #     print("第{}次".format(i + 1))
+    #     jd.bibi()
+    #     print(jd.ture)
     print(time.time() - start)
