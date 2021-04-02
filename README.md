@@ -4,6 +4,8 @@
 纯pytorch实现，无需安装其他复杂依赖  
 识别速度约在100~200ms之间，使用GPU话会更快  
 ~~方式二的话速度约为50ms~~  
+如果需要使用GPU来进行推理的话 卸载onnxruntime安装onnxruntime-gpu 并在实例化对象是添加GPU=True参数
+captcha.TextSelectCaptcha(GPU=True)  
 
 ## 更新说明
 本次进行了一次大的版本更新，检测模型从yoloV3->yoloV5,cnn模型和crnn模型都增加了新的数据重新训练了。  
