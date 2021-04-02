@@ -7,8 +7,8 @@ text_image1/
 text_image2/
 text_image3/
 error/
-demo.py
 tes_bilbil.py
+bilbil_test.py
 model/*.pth
 model/*.klm
 error2/

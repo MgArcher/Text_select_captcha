@@ -18,8 +18,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-import mode_one
 
+from src import captcha
+from drawing import draw
+
+
+# 初始化项目
+cap = captcha.TextSelectCaptcha()
 
 
 def to_selenium(res):
@@ -46,17 +51,13 @@ class BilBil(object):
         # self.browser.maximize_window()
         self.wait = WebDriverWait(self.browser, 30)
         self.url = "https://passport.bilibili.com/login"
-        self.ture = 0
+        self.x_offset = 45
 
     def __del__(self):
         self.browser.close()
 
     def options(self):
         chrome_options = webdriver.ChromeOptions()
-        # chrome_options.add_argument('--headless')
-        # chrome_options.add_argument('--disable-gpu')
-        # mobile_emulation = {"deviceName": "iPhone 6"}
-        # chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
         return chrome_options
 
     def click(self, xpath):
@@ -72,42 +73,35 @@ class BilBil(object):
         xpath = '//*[@id="login-passwd"]'
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, xpath))).send_keys('Python')
-        xpath = '//*[@id="geetest-wrap"]/div/div[5]/a[1]'
+        xpath = '//*[@id="geetest-wrap"]//*[@class="btn btn-login"]'
         self.click(xpath)
 
-        xpath = '/html/body/div[2]/div[2]/div[6]/div/div/div[2]/div[1]/div/div[2]/img'
+        xpath = '//*[@class="geetest_item_img"]'
         logo = self.wait.until(EC.presence_of_element_located(
         (By.XPATH, xpath)))
+        # 获取图片路径
         f = logo.get_attribute('src')
-        if f:
-            res = requests.get(f)
-            res = res.content
-            with open(f"bilbil.jpg", 'wb') as f:
-                f.write(res)
-        res = mode_one.run_click("bilbil.jpg")
+        if not f:
+            return None
+        content = requests.get(f).content
+        res = cap.run(content)
         plan = to_selenium(res)
         X, Y = logo.location['x'], logo.location['y']
-        print(X, Y)
+        # print(X, Y)
         lan_x = 259/334
         lan_y = 290/384
         for p in plan:
             x, y = p['place']
-            ActionChains(self.browser).move_by_offset(X-40 + x*lan_x, Y + y*lan_y).click().perform()
-            ActionChains(self.browser).move_by_offset(-(X-40 + x*lan_x), -(Y + y*lan_y)).perform()  # 将鼠标位置恢复到移动前
-            time.sleep(0.5)
 
-        xpath = "/html/body/div[2]/div[2]/div[6]/div/div/div[3]/a/div"
+            ActionChains(self.browser).move_by_offset(X + x*lan_x - self.x_offset, Y + y*lan_y).click().perform()
+            ActionChains(self.browser).move_by_offset(-(X + x*lan_x - self.x_offset), -(Y + y*lan_y)).perform()  # 将鼠标位置恢复到移动前
+            time.sleep(0.5)
+        xpath = "//*[@class='geetest_commit_tip']"
         self.click(xpath)
 
-        print(res)
-        print(plan)
-        print("".join([i['text']for i in plan]))
-        time.sleep(100)
+        draw(content, res)
 
 
 if __name__ == '__main__':
-    import time
-    start = time.time()
     jd = BilBil()
     jd.bibi()
-    print(time.time() - start)
