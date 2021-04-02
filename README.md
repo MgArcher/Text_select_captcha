@@ -30,21 +30,6 @@
 2、利用cnn识别图中文字  
 3、利用kenlm计算各种组合情况，选择困惑度最低的,获得正确的词语   
 ![Image text](./doc/xyj.png)   
-##  模型文件  
-**下载链接**   
-http://39.108.219.137/text_select_captcha/model    
-  **百度网盘**  
-链接：https://pan.baidu.com/s/1FF6A-YZAE1Bofgswp-D29w  
-提取码：ceow  
-**dev分支**
-（下载model文件夹放入到代码所在目录）
-模型文件在model目录下  
-卷积神经网络模型 cnn_iter.pth（用于识别图片中的文字）  
-卷积神经网络+CTCloss模型 ocr-lstm.pth（用于识别标题中的文字）   
-yoloV3模型 yolov3_ckpt.pth （用于框选出图片中的文字和标题）    
-kenlm统计语言模型 people_chars_lm.klm  （用于计算语序）  
-**模型结构**  
-模型结构存放在src/utils中
 
 ## 环境准备
 1、安装python3.6（建议使用anconda）  

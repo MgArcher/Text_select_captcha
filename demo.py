@@ -8,7 +8,7 @@ from drawing import draw
 import time
 
 if __name__ == '__main__':
-    path = "data/error/爆炒肚_1617346725.jpg"
+    path = r"img/1234.jpg"
     with open(path, 'rb') as f:
         path = f.read()
     cap = captcha.TextSelectCaptcha(GPU=True)
