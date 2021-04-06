@@ -4,8 +4,7 @@
 纯pytorch实现，无需安装其他复杂依赖  
 识别速度约在100~200ms之间，使用GPU话会更快  
 ~~方式二的话速度约为50ms~~  
-如果需要使用GPU来进行推理的话 卸载onnxruntime安装onnxruntime-gpu 并在实例化对象是添加GPU=True参数
-captcha.TextSelectCaptcha(GPU=True)  
+如果需要使用GPU来进行推理的话 卸载onnxruntime安装onnxruntime-gpu 
 
 ## 更新说明
 本次进行了一次大的版本更新，检测模型从yoloV3->yoloV5,cnn模型和crnn模型都增加了新的数据重新训练了。  
@@ -28,9 +27,9 @@ captcha.TextSelectCaptcha(GPU=True)
 3、根据答题范围，利用cnn预测图片中出现的文字是那个  
 ![Image text](./doc/fc2b0.png)    
 ~~方式二~~(kenlm计算的方式总是不太理想，先去掉此种方式)  
-1、利用yolo框选图中出现的文字  
-2、利用cnn识别图中文字  
-3、利用kenlm计算各种组合情况，选择困惑度最低的,获得正确的词语   
+~~1、利用yolo框选图中出现的文字~~  
+~~2、利用cnn识别图中文字~~  
+~~3、利用kenlm计算各种组合情况，选择困惑度最低的,获得正确的词语~~   
 ![Image text](./doc/xyj.png)   
 
 ## 环境准备

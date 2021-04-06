@@ -12,32 +12,11 @@ import time
 import torch
 import torchvision
 
-from src.utils.models.experimental import attempt_load
-
-import torch.nn.functional as F
 import numpy as np
-import torchvision.transforms as transforms
 from PIL import Image
 
-# 模型数据输入
-def resize(image, size):
-    image = F.interpolate(image.unsqueeze(0), size=size, mode="nearest").squeeze(0)
-    return image
 
-
-def pad_to_square(img, pad_value):
-    c, h, w = img.shape
-    dim_diff = np.abs(h - w)
-    # (upper / left) padding and (lower / right) padding
-    pad1, pad2 = dim_diff // 2, dim_diff - dim_diff // 2
-    # Determine padding
-    pad = (0, 0, pad1, pad2) if h <= w else (pad1, pad2, 0, 0)
-    # Add padding
-    img = F.pad(img, pad, "constant", value=pad_value)
-
-    return img, pad
-
-
+# 结果与图片匹配
 def open_image(img_path):
     if isinstance(img_path, np.ndarray):
         img = Image.fromarray(img_path)
@@ -49,19 +28,6 @@ def open_image(img_path):
     return img
 
 
-def open_picture(img_path, img_size):
-    """打开图片"""
-    img = open_image(img_path)
-    img = transforms.ToTensor()(img.convert('RGB'))
-    # Pad to square resolution
-    img, _ = pad_to_square(img, 0)
-    img = resize(img, img_size)
-
-    # 扩充维度
-    img = torch.unsqueeze(img, 0)
-    return img_path, img
-
-# 结果与图片匹配
 def rescale_boxes(boxes, current_dim, original_shape):
     """ Rescales bounding boxes to the original shape """
     orig_h, orig_w = original_shape
@@ -230,34 +196,3 @@ def non_max_suppression(prediction, conf_thres=0.25, iou_thres=0.45, classes=Non
 
     return output
 
-
-class YOLO(object):
-    def __init__(self, weights=None, GPU=False):
-        self.img_size = 640
-        self.classes = ['target', 'title']
-        if GPU:
-            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        else:
-            self.device = torch.device("cpu")
-
-        self.model = attempt_load(weights, map_location=self.device)
-
-    def run(self, img_path):
-        img_paths, input_imgs = open_picture(img_path, self.img_size)
-        input_imgs = input_imgs.to(self.device)
-        pred = self.model(input_imgs, augment=False)[0]
-        pred = non_max_suppression(pred)
-        res = tag_images(img_paths, pred, self.img_size, self.classes)
-        return res
-
-
-if __name__ == '__main__':
-    import os, sys
-
-    root_path = os.getcwd()
-    print(root_path)
-    img_path = "../../img/1234.jpg"
-    weights = r"C:\CodeFiles\image\wordChoice\a_captcha_210316\deploy_data\src\model/best.pt"
-    y = YOLO(weights)
-    res = y.run(img_path)
-    print(res)

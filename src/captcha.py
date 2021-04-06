@@ -5,9 +5,9 @@
 @file: captcha.py
 @time: 2021/3/28 15:31
 """
-from src.utils.operation import CRNN, CNN
+from src.utils.operation import CRNN, CNN, YOLO
 from src.utils.discern import Text
-from src.utils.orientation import YOLO
+
 
 import os, sys
 root_path = os.getcwd()
@@ -16,7 +16,7 @@ sys.path.insert(0, root_path + r"\src\utils") # ModuleNotFoundError: No module n
 
 
 class TextSelectCaptcha(object):
-    def __init__(self, GPU=False, char_dict="ch_sim_char_7255.txt", cnn_path="cnn.onnx", crnn_path="crnn.onnx", yolo_path="best.pt"):
+    def __init__(self, GPU=False, char_dict="ch_sim_char_7255.txt", cnn_path="cnn.onnx", crnn_path="crnn.onnx", yolo_path="yolo.onnx"):
         save_path = os.path.join(os.path.dirname(__file__), 'model')
 
         path = lambda a, b: os.path.join(a, b)
@@ -25,7 +25,7 @@ class TextSelectCaptcha(object):
         self.crnn = CRNN(path(save_path, crnn_path), char_path)
         self.cnn = CNN(path(save_path, cnn_path), char_path)
         self.text = Text(self.cnn, self.crnn)
-        self.yolo = YOLO(path(save_path, yolo_path), GPU)
+        self.yolo = YOLO(path(save_path, yolo_path))
         
     def run(self, img):
         """
@@ -34,7 +34,6 @@ class TextSelectCaptcha(object):
         :return: list ---> [{"classes": "", "content": "", "crop": []}]
         """
         res = self.detection(img)
-        print(res)
         results = self.discern(img, res)
         return results
 
@@ -44,7 +43,7 @@ class TextSelectCaptcha(object):
         :param img: 图片的路径、二进制数据或图片矩阵
         :return: list ---> [{'crop': [x1, y1, x2, y2], 'classes': ''}
         """
-        res = self.yolo.run(img)
+        res = self.yolo.decect(img)
         return res
 
     def text_discern(self, img):

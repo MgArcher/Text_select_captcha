@@ -1,7 +1,6 @@
 numpy==1.18.5
 torch==1.5.1
 torchvision==0.6.1
-tensorboard==1.14.0
 matplotlib==3.3.0
 pillow==7.2.0
 selenium==3.141.0

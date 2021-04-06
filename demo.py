@@ -13,7 +13,6 @@ if __name__ == '__main__':
     with open(path, 'rb') as f:
         path = f.read()
     cap = captcha.TextSelectCaptcha()
-    # cap = captcha.TextSelectCaptcha(GPU=True)
     s1 = time.time()
     data = cap.run(path)
     print(time.time() - s1)
