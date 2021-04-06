@@ -1,13 +1,10 @@
 #!/usr/bin/env python
-
 # -*- coding: utf-8 -*-
-
 """
 @author: jiajia
 @file: bilbil.py
 @time: 2020/8/22 18:48
 """
-#!/usr/bin/env python
 import re
 import time
 import base64

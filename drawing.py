@@ -1,6 +1,6 @@
 """
 @author: jiajia
-@file: operation.py
+@file: drawing.py
 @time: 2021/3/28 15:31
 """
 import matplotlib.pyplot as plt
