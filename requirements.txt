@@ -1,10 +1,12 @@
 numpy==1.18.5
-torch==1.5.1
-torchvision==0.6.1
 matplotlib==3.3.0
 pillow==7.2.0
 selenium==3.141.0
 requests==2.24.0
 onnxruntime
 
+uvicorn
+fastapi
+fastapi_restful
+python-multipart
 

@@ -4,9 +4,12 @@
 @time: 2021/3/28 15:31
 """
 from io import BytesIO
+
 import onnxruntime
 import numpy as np
 from PIL import Image
+
+from src.utils.orientation import non_max_suppression, tag_images
 
 
 class ONNXModel(object):
@@ -98,7 +101,6 @@ class CNN(ONNXModel):
         out = self.onnx_session.run(self.output_name, input_feed=input_feed)
         pic = int(np.argmax(out[0]))
         res = self.characters[pic]
-
         return res
 
     def batch_decect(self, image_numpy):
@@ -133,12 +135,6 @@ class CRNN(ONNXModel):
         return res
 
 
-
-
-
-import torch
-from src.utils.orientation import non_max_suppression, tag_images
-
 class YOLO(ONNXModel):
     def __init__(self, onnx_path="crnn.onnx"):
         super(YOLO, self).__init__(onnx_path)
@@ -148,7 +144,6 @@ class YOLO(ONNXModel):
         self.batch_size = 1
 
         self.num_classes = 2
-        self.anchors = [[10, 13, 16, 30, 33, 23], [30, 61, 62, 45, 59, 119], [116, 90, 156, 198, 373, 326]]
         self.classes = ['target', 'title']
 
     def to_numpy(self, file, shape, gray=False):
@@ -169,70 +164,34 @@ class YOLO(ONNXModel):
             img = Image.fromarray(file)
         elif isinstance(file, bytes):
             img = Image.open(BytesIO(file))
-            pass
         else:
             img = Image.open(file)
-
         resized = letterbox_image(img, (self.img_size_w, self.img_size_h))
         img_in = np.transpose(resized, (2, 0, 1)).astype(np.float32)  # HWC -> CHW
         img_in = np.expand_dims(img_in, axis=0)
         img_in /= 255.0
         return img_in
 
-    def detect(self, outputs):
-        """编辑实现yolov5最后的预测层(有点问题，最后输出的图片与yolo未转换的相比有差别)"""
-        boxs = []
-        a = torch.tensor(self.anchors).float().view(3, -1, 2)
-        anchor_grid = a.clone().view(3, 1, -1, 1, 1, 2)
-        if len(outputs) == 4:
-            outputs = [outputs[1], outputs[2], outputs[3]]
-        for index, out in enumerate(outputs):
-            out = torch.from_numpy(out)
-            batch = out.shape[1]
-            feature_w = out.shape[2]
-            feature_h = out.shape[3]
-
-            # Feature map corresponds to the original image zoom factor
-            stride_w = int(self.img_size_w / feature_w)
-            stride_h = int(self.img_size_h / feature_h)
-
-            grid_x, grid_y = np.meshgrid(np.arange(feature_w), np.arange(feature_h))
-
-            # cx, cy, w, h
-            pred_boxes = torch.FloatTensor(out[..., :4].shape)
-            pred_boxes[..., 0] = (torch.sigmoid(out[..., 0]) * 2.0 - 0.5 + grid_x) * stride_w  # cx
-            pred_boxes[..., 1] = (torch.sigmoid(out[..., 1]) * 2.0 - 0.5 + grid_y) * stride_h  # cy
-            pred_boxes[..., 2:4] = (torch.sigmoid(out[..., 2:4]) * 2) ** 2 * anchor_grid[index]  # wh
-
-            conf = torch.sigmoid(out[..., 4])
-            pred_cls = torch.sigmoid(out[..., 5:])
-
-            output = torch.cat((pred_boxes.view(self.batch_size, -1, 4),
-                                conf.view(self.batch_size, -1, 1),
-                                pred_cls.view(self.batch_size, -1, self.num_classes)),
-                               -1)
-            boxs.append(output)
-
-        outputx = torch.cat(boxs, 1)
-        return outputx
-
     def decect(self, img):
         # 图片转换为矩阵
         image_numpy = self.to_numpy(img, shape=(self.img_size, self.img_size))
         input_feed = self.get_input_feed(self.input_name, image_numpy)
         outputs = self.onnx_session.run(self.output_name, input_feed=input_feed)
-        outputx = self.detect(outputs)
-        pred = non_max_suppression(outputx)
-        res = tag_images(img, pred, self.img_size, self.classes)
+        pred = non_max_suppression(outputs[0])
+        if pred:
+            res = tag_images(img, pred, self.img_size, self.classes)
+        else:
+            res = []
         return res
 
 
 if __name__ == '__main__':
 
-    yolo = YOLO("C:\CodeFiles\image\wordChoice\Text_select_captcha/src/model/yolo.onnx")
-    img = r"C:\CodeFiles\image\wordChoice\Text_select_captcha\img\1234.jpg"
-    pred = yolo.decect(img)
+    yolo = YOLO(r"C:\CodeFiles\WordChoice\Text_select_captcha\model\yolo.onnx")
+    img = r"D:\chengxuwenjian\wanzhengxiangmu\image\wordChoice\data\bilbil\detect\img_2119.jpg"
 
+    from src.utils.discern import open_image
+    pred = yolo.decect(open_image(img))
     data = []
     for i in pred:
         i['content'] = ''

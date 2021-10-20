@@ -22,7 +22,7 @@ def open_image(file):
     return img
 
 
-def draw(img_path, data):
+def draw(img_path, data=[]):
     "绘制识别结果"
     image_ = open_image(img_path)
 

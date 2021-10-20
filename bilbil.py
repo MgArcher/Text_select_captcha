@@ -96,7 +96,8 @@ class BilBil(object):
         xpath = "//*[@class='geetest_commit_tip']"
         self.click(xpath)
 
-        draw(content, res)
+        # draw(content, res)
+        time.sleep(100)
 
 
 if __name__ == '__main__':

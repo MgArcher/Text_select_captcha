@@ -1,17 +1,20 @@
 # 点击选择文字验证码识别
 文字点选、选字、选择文字验证码识别  
 **特点**  
-纯pytorch实现，无需安装其他复杂依赖  
-识别速度约在100~200ms之间，使用GPU话会更快  
-~~方式二的话速度约为50ms~~  
+无复杂环境使用，仅需要numpy与pillow即可。  
+识别速度约在100~200ms之间，使用GPU话会更快
 如果需要使用GPU来进行推理的话 卸载onnxruntime安装onnxruntime-gpu 
 
+```angular2html
+项目结构
+---app 服务相关代码
+---model 模型文件
+---src  项目相关代码
+```
 ## 更新说明
-本次进行了一次大的版本更新，检测模型从yoloV3->yoloV5,cnn模型和crnn模型都增加了新的数据重新训练了。  
-识别速度和准确率都有了大幅度的提升，使用cpu的情况下单次识别速度在100ms以内，识别准确率达到了惊人的99%。  
-![Image text](./doc/b9286cf8d1d851f7398cca4f90e5d24.png)   
-此次更新把cnn和crnn模型转换成onnx,用来提高cpu推理速度，优化代码结构，修复其中一些bug和删除了一些不必要的代码。  
-新版代码克隆可直接使用，旧版代码在dev分支
+#### 20211020更新  
+增加了服务启动模块，支持新版本验证码，去除pytorch依赖  
+新版本的可以识别但是准确率下降许多
 
 ## 免责声明
 **本项目仅供学习交流使用，请勿用于非法用途，不得在任何商业使用，本人不承担任何法律责任。**
@@ -20,17 +23,10 @@
 链接：https://pan.baidu.com/s/1FF6A-YZAE1Bofgswp-D29w  
 提取码：ceow  
 ## 实现逻辑 
-**识别逻辑**  
-方式一  
+**识别逻辑**
 1、利用yolo框选出给出的文字和图中出现的文字，作为题目  
 2、利用crnn识别给定的文字，作为答题范围  
-3、根据答题范围，利用cnn预测图片中出现的文字是那个  
-![Image text](./doc/fc2b0.png)    
-~~方式二~~(kenlm计算的方式总是不太理想，先去掉此种方式)  
-~~1、利用yolo框选图中出现的文字~~  
-~~2、利用cnn识别图中文字~~  
-~~3、利用kenlm计算各种组合情况，选择困惑度最低的,获得正确的词语~~   
-![Image text](./doc/xyj.png)   
+3、根据答题范围，利用cnn预测图片中出现的文字是那个   
 
 ## 环境准备
 1、安装python3.6（建议使用anconda）  
@@ -39,7 +35,13 @@
 ## 如何使用
 
 ``` bash
+#普通使用
 python dome.py
+服务启动方式
+python service.py
+启动后访问http://127.0.0.1:8000/docs#/查看接口文档
+bilbil演示
+python bilbil.py
 ```  
 结果如下  
 ```json
@@ -97,12 +99,13 @@ python dome.py
 ]
 ```
 ![Image text](./doc/123.jpg)  
+![Image text](./doc/img.png)  
 
 ## 效果演示
 **以bilbil登录验证码为例**  
 ```python bilbil.py```  
-![Image text](./doc/bilibili_1.gif)  
-![Image text](./doc/bilibili_2.gif)  
+![Image text](./doc/06vlg-ucmg1.gif)  
+ 
 
 
 

@@ -5,19 +5,16 @@
 @file: captcha.py
 @time: 2021/3/28 15:31
 """
+import os
+
 from src.utils.operation import CRNN, CNN, YOLO
 from src.utils.discern import Text
-
-
-import os, sys
-root_path = os.getcwd()
-# print(root_path)
-sys.path.insert(0, root_path + r"\src\utils") # ModuleNotFoundError: No module named 'models'
+from src.utils.discern import open_image
 
 
 class TextSelectCaptcha(object):
-    def __init__(self, GPU=False, char_dict="ch_sim_char_7255.txt", cnn_path="cnn.onnx", crnn_path="crnn.onnx", yolo_path="yolo.onnx"):
-        save_path = os.path.join(os.path.dirname(__file__), 'model')
+    def __init__(self, char_dict="ch_sim_char_7255.txt", cnn_path="cnn.onnx", crnn_path="crnn.onnx", yolo_path="yolo.onnx"):
+        save_path = os.path.join(os.path.dirname(__file__), '../model')
 
         path = lambda a, b: os.path.join(a, b)
         char_path = path(save_path, char_dict)
@@ -33,11 +30,12 @@ class TextSelectCaptcha(object):
         :param img: 图片的路径、二进制数据或图片矩阵
         :return: list ---> [{"classes": "", "content": "", "crop": []}]
         """
-        res = self.detection(img)
+        img = open_image(img)
+        res = self.__detection(img)
         results = self.discern(img, res)
         return results
 
-    def detection(self, img):
+    def __detection(self, img):
         """
         检测
         :param img: 图片的路径、二进制数据或图片矩阵
@@ -52,6 +50,7 @@ class TextSelectCaptcha(object):
         :param img: 图片的路径、二进制数据或图片矩阵
         :return: str
         """
+        img = open_image(img)
         return self.crnn.decect(img)
     
     def single_discern(self, img):
@@ -60,6 +59,7 @@ class TextSelectCaptcha(object):
         :param img: 图片的路径、二进制数据或图片矩阵
         :return: str
         """
+        img = open_image(img)
         return self.cnn.decect(img)
 
     def discern(self, img, res):
@@ -69,4 +69,5 @@ class TextSelectCaptcha(object):
         :param res:
         :return: list ---> [{"classes": "", "content": "", "crop": []}]
         """
+        img = open_image(img)
         return self.text.text_predict(res, img)
