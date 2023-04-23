@@ -4,7 +4,8 @@
 识别速度约在100~300ms之间  
 高达97%的准确率  
 小样本训练（此模型训练采用了300张验证码）  
-windows下python3.6、python3.8、python3.10测试使用通过
+windows下python3.6、python3.8、python3.10测试使用通过  
+低消耗，代码经编译后在低配置机器上也可运行  
 
 ## 效果演示
 ![Image text](./docs/res.gif)  
