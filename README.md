@@ -45,12 +45,9 @@ python bilbil.py
 ```
 
 
-<figure class="three">
-    <img src="./docs/res.jpg" width="200" height="200">
-    <img src="./docs/res1.jpg" width="200" height="200">
-    <img src="./docs/res2.jpg" width="200" height="200">
-</figure>
-
+| 原始 | 检测 | 识别 |
+| --- | --- |--- |
+| <img src="./docs/res.jpg" width="300" height="300"> | <img src="./docs/res1.jpg" width="300" height="300"> | <img src="./docs/res2.jpg" width="300" height="300">|
 
  
 
@@ -61,7 +58,7 @@ python bilbil.py
 
 | Wechat Pay | Ali Pay |
 | --- | --- |
-| <img src="./docs/wechat.jpg" height="240" /> | <img src="./docs/Ali.png" height="240" /> |
+| <img src="./docs/wechat.jpg" height="300" /> | <img src="./docs/Ali.png" height="300" /> |
 
 ##有什么问题或需求欢迎各位在lssues中提问或联系邮件**yj970814@163.com**
 ### 点个**star**再走呗！ 
