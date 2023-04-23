@@ -46,9 +46,9 @@ python bilbil.py
 
 
 <figure class="three">
-    <img src="./docs/res.jpg" width="300" height="300">
-    <img src="./docs/res1.jpg" width="300" height="300">
-    <img src="./docs/res2.jpg" width="300" height="300">
+    <img src="./docs/res.jpg" width="200" height="200">
+    <img src="./docs/res1.jpg" width="200" height="200">
+    <img src="./docs/res2.jpg" width="200" height="200">
 </figure>
 
 
