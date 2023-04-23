@@ -13,7 +13,7 @@ import time
 
 cap = TextSelectCaptcha()
 
-image_path = "docs/res.jpg"
+image_path = "errot/1682234534.jpg"
 
 s = time.time()
 result = cap.run(image_path)

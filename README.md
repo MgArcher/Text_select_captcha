@@ -3,6 +3,7 @@
 **特性**  
 识别速度约在100~300ms之间  
 高达97%的准确率  
+windows下python3.6、python3.8、python3.10测试使用通过
 
 ## 效果演示
 ![Image text](./docs/res.gif)  

@@ -106,30 +106,11 @@ class BilBil(object):
 
         return content
 
-    def ceshi(self, content):
-        xpath = "//*[@class='geetest_commit_tip']"
-        self.click(xpath)
-        with open(f'data/{int(time.time())}.jpg', 'wb') as f:
-            f.write(content)
-        time.sleep(2)
-        try:
-            self.click(xpath)
-            with open(f'errot/{int(time.time())}.jpg', 'wb') as f:
-                f.write(content)
-            return False
-        except:
-            return True
+
+
 
 
 if __name__ == '__main__':
     jd = BilBil()
-    # jd.bibi()
+    jd.bibi()
 
-    number = 0
-    true = 0
-    for i in range(100):
-        content = jd.bibi()
-        number += 1
-        if jd.ceshi(content):
-            true += 1
-        print("第{}次识别, 正确个数为：{}".format(i + 1, true))
