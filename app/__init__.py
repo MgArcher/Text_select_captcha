@@ -9,15 +9,14 @@
 # Description：
 """
 from fastapi import FastAPI
-from fastapi_restful import Api
+
+from app.utils.res_api import Api
+from fastapi.middleware.cors import CORSMiddleware
+from app.utils.logs_docs import get_docs
 
 from app.api.clickOn import ClickOn
 from app.api.clickOnFile import ClickOnFile
-from app.api.clickOnForm import ClickOnForm
-from app.api.clickonGat import ClickOnGat
-from fastapi.middleware.cors import CORSMiddleware
 
-from app.utils.logs_docs import get_docs
 
 def create_app():
     app = FastAPI()
@@ -37,7 +36,5 @@ def create_app():
 
 
 def add_api(api):
-    api.add_resource(ClickOn(), "/clickOn")
-    api.add_resource(ClickOnFile(), "/clickOnFile")
-    api.add_resource(ClickOnForm(), "/clickOnForm")
-    api.add_resource(ClickOnGat(), "/clickOnGat")
+    api.add_resource(ClickOn(), "/clickOn", tages=["识别"], summary="返回识别结果")
+    api.add_resource(ClickOnFile(), "/clickOnFile", tages=["识别"], summary="返回识别结果图片")

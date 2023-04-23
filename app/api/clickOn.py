@@ -33,17 +33,14 @@ class Input(BaseModel):
 
 class ClickOn(Resource):
 
-
     def post(self, item: Input):
         """
-接收json请求，识别点选验证码
-dataType: dataType为1时imageSource接收链接地址，为2时imageSource接收base64编码后的文件流
-imageSource：base64编码后的文件流，或链接地址
+        - **dataType: int；必须；文件类型：1:链接地址，2:文件字节流**
+        - **imageSource: str；必须；源文件地址或源文件流，参照dataType，dataType为1需要传链接地址，dateType为2需要传文件流。传文件流方式，要base64编码，并去掉base64头标识。**
+        - **imageID: str；不必须；图片名称或id**
         """
         results = dict()
         data = item.dict()
         imageSource = interface.set_imageSource(data)
         res = cap_model.run(imageSource)
-        results['data'] = res
-        results['imageID'] = data.get("imageID", "")
-        return results
+        return {'errNo': 0, 'errDesc': "成功", "data": res}
