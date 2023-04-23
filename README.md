@@ -60,7 +60,7 @@ python bilbil.py
 | --- | --- |
 | <img src="./docs/wechat.jpg" height="300" /> | <img src="./docs/Ali.png" height="300" /> |
 
-##有什么问题或需求欢迎各位在lssues中提问或联系邮件**yj970814@163.com**
+## 有什么问题或需求欢迎各位在lssues中提问或联系邮件**yj970814@163.com**
 ### 点个**star**再走呗！ 
 
 
