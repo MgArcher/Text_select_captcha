@@ -1,20 +1,23 @@
-"""
-@author: jiajia
-@file: demo.py
-@time: 2021/3/28 15:31
-"""
-from src import captcha
-from drawing import draw
-import time
-import json
+# !/usr/bin/env python
+# -*-coding:utf-8 -*-
 
-if __name__ == '__main__':
-    path = r"domo.jpg"
-    cap = captcha.TextSelectCaptcha()
-    s1 = time.time()
-    data = cap.run(path)
-    s2 = time.time()
-    # draw(path, data)
-    data = json.dumps(data, sort_keys=True, indent=4, ensure_ascii=False)
-    print(data)
-    print(s2 - s1)
+"""
+# File       : demo.py
+# Time       ：2023/4/21 14:56
+# Author     ：yujia
+# version    ：python 3.6
+# Description：
+"""
+from src.captcha import TextSelectCaptcha, drow_img
+import time
+
+cap = TextSelectCaptcha()
+
+image_path = "docs/res.jpg"
+
+s = time.time()
+result = cap.run(image_path)
+print(result)
+print("耗时：", time.time() - s)
+cap.yolo.infer(image_path)
+drow_img(image_path, result)

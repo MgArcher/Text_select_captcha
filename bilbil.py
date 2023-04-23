@@ -17,28 +17,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
 from src import captcha
-from drawing import draw
-
-
-# 初始化项目
-cap = captcha.TextSelectCaptcha()
-
-
-def to_selenium(res):
-    place = []
-    title = [i['content'] for i in res if i['classes'] == "title"][0]
-    for t in title:
-        for item in res:
-            if item['classes'] == "target":
-                x1, y1, x2, y2 = item['crop']
-                if item['content'] == t:
-                    place.append(
-                        {
-                            "text": t,
-                            "place": [(x1 + x2)/2, (y1 + y2)/2]
-                        }
-                    )
-    return place
 
 
 class BilBil(object):
@@ -48,10 +26,10 @@ class BilBil(object):
         # self.browser.maximize_window()
         self.wait = WebDriverWait(self.browser, 30)
         self.url = "https://passport.bilibili.com/login"
-        self.x_offset = 45
+        self.cap = captcha.TextSelectCaptcha()
 
-    def __del__(self):
-        self.browser.close()
+    # def __del__(self):
+    #     self.browser.close()
 
     def options(self):
         chrome_options = webdriver.ChromeOptions()
@@ -61,45 +39,97 @@ class BilBil(object):
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, xpath))).click()
 
+    def get_location(self, element):
+        # 获取元素在屏幕上的位置信息
+        location = element.location
+        size = element.size
+        height = size['height']
+        width = size['width']
+        left = location['x']
+        top = location['y']
+        right = left + width
+        bottom = top + height
+        script = f"return {{'left': {left}, 'top': {top}, 'right': {right}, 'bottom': {bottom}}};"
+        rect = self.browser.execute_script(script)
+
+        # # 计算元素的中心坐标
+        # center_x = int((rect['left'] + rect['right']) / 2)
+        # center_y = int((rect['top'] + rect['bottom']) / 2)
+        # # 计算元素左上
+        center_x = int(rect['left'])
+        center_y = int(rect['top'])
+        return center_x, center_y
+
     def bibi(self):
         url = "https://passport.bilibili.com/login"
         self.browser.get(url)
-        xpath = '//*[@id="login-username"]'
+        xpath = '//*[@id="app"]/div[2]/div[2]/div[3]/div[2]/div[1]/div[1]/input'
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, xpath))).send_keys('Python')
-        xpath = '//*[@id="login-passwd"]'
+
+        xpath = '//*[@id="app"]/div[2]/div[2]/div[3]/div[2]/div[1]/div[3]/input'
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, xpath))).send_keys('Python')
-        xpath = '//*[@id="geetest-wrap"]//*[@class="btn btn-login"]'
+        xpath = '//*[@id="app"]/div[2]/div[2]/div[3]/div[2]/div[2]/div[2]'
         self.click(xpath)
 
-        xpath = '//*[@class="geetest_item_img"]'
+        time.sleep(2)
+        xpath = '//*[@class="geetest_item_wrap"]'
         logo = self.wait.until(EC.presence_of_element_located(
         (By.XPATH, xpath)))
         # 获取图片路径
-        f = logo.get_attribute('src')
-        if not f:
-            return None
-        content = requests.get(f).content
-        res = cap.run(content)
-        plan = to_selenium(res)
-        X, Y = logo.location['x'], logo.location['y']
-        # print(X, Y)
-        lan_x = 259/334
-        lan_y = 290/384
-        for p in plan:
-            x, y = p['place']
+        f = logo.get_attribute('style')
+        url = re.findall('url\("(.+?)"\);', f)
+        if url:
+            url = url[0]
+            content = requests.get(url).content
+            #送入模型识别
+            plan = self.cap.run(content)
+            # 获取验证码坐标
+            X, Y = self.get_location(logo)
+            # 前端展示对于原图的缩放比例
+            lan_x = 306/334
+            lan_y = 343/384
+            for crop in plan:
+                x1, y1, x2, y2 = crop
+                x, y = [(x1 + x2) / 2, (y1 + y2) / 2]
+                print(x, y)
+                ActionChains(self.browser).move_by_offset(X + x*lan_x, Y + y*lan_y).click().perform()
+                ActionChains(self.browser).move_by_offset(-(X + x*lan_x), -(Y + y*lan_y)).perform()  # 将鼠标位置恢复到移动前
+                time.sleep(0.5)
+            xpath = "/html/body/div[4]/div[2]/div[6]/div/div/div[3]/a/div"
+            self.click(xpath)
+        else:
+            print("error: 未获得到验证码地址")
+            # draw(content, res)
+            content = None
 
-            ActionChains(self.browser).move_by_offset(X + x*lan_x - self.x_offset, Y + y*lan_y).click().perform()
-            ActionChains(self.browser).move_by_offset(-(X + x*lan_x - self.x_offset), -(Y + y*lan_y)).perform()  # 将鼠标位置恢复到移动前
-            time.sleep(0.5)
+        return content
+
+    def ceshi(self, content):
         xpath = "//*[@class='geetest_commit_tip']"
         self.click(xpath)
-
-        # draw(content, res)
-        time.sleep(100)
+        with open(f'data/{int(time.time())}.jpg', 'wb') as f:
+            f.write(content)
+        time.sleep(2)
+        try:
+            self.click(xpath)
+            with open(f'errot/{int(time.time())}.jpg', 'wb') as f:
+                f.write(content)
+            return False
+        except:
+            return True
 
 
 if __name__ == '__main__':
     jd = BilBil()
-    jd.bibi()
+    # jd.bibi()
+
+    number = 0
+    true = 0
+    for i in range(100):
+        content = jd.bibi()
+        number += 1
+        if jd.ceshi(content):
+            true += 1
+        print("第{}次识别, 正确个数为：{}".format(i + 1, true))

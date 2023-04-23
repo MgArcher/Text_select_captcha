@@ -25,7 +25,7 @@ class Input(BaseModel):
         schema_extra = {
             "example": {
                 "dataType": 1,
-                "imageSource": "https://static.geetest.com/captcha_v3/batch/v3/2021-09-18T10/word/182ebfd7468d42f48aed95a83a4fcef5.jpg?challenge=5e8cc0a940dbf1fa0c5fb2ce0a0172eb",
+                "imageSource": "https://static.geetest.com/captcha_v3/batch/v3/33114/2023-04-23T10/word/2c4d5ce6e02e4cb883f45e6476be9ba7.jpg?challenge=b11d16e456aad5c622d244047cc389ea",
                 "imageID": "string"
                 }
         }
