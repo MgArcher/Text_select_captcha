@@ -107,9 +107,6 @@ class BilBil(object):
         return content
 
 
-
-
-
 if __name__ == '__main__':
     jd = BilBil()
     jd.bibi()
