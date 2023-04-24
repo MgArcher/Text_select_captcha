@@ -67,7 +67,7 @@ python bilbil.py
 
 对于 YOLO 模型的训练流程，可以参考下方参考文档中的文档。基本流程是，首先下载训练数据集，数据集应该包含带有标注的图像和对应的标注数据。然后使用标注工具对图像进行标注，标注工具可以在 GitHub 上找到。标注的数据应该包括目标的类别和位置信息。
 <div align=center>
-<img src="./docs/img.png" width="400" height="400">
+<img src="./docs/img.png" width="800" height="400">
 <center>标注结果</center>
 </div>
 如图所示，可以对背景图中的文字进行 char 类别的标注，对需要检测的文字进行 target 类别的标注。在训练时，模型会学习如何从图像中定位和识别目标文本。
