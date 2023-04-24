@@ -10,11 +10,11 @@
 """
 from src.captcha import TextSelectCaptcha, drow_img
 import time
-
+s = time.time()
 cap = TextSelectCaptcha()
+print("加载模型耗时：", time.time() - s)
 
-image_path = "data/res.jpg"
-
+image_path = "docs/res.jpg"
 s = time.time()
 result = cap.run(image_path)
 print(result)
