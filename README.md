@@ -56,7 +56,7 @@ python bilbil.py
 
 
 
-# 请作者者喝可乐**o(*￣︶￣*)o**  
+# 请作者喝可乐**o(*￣︶￣*)o**  
 
 | Wechat Pay | Ali Pay |
 | --- | --- |
