@@ -18,7 +18,7 @@ windows下python3.6、python3.8、python3.10测试使用通过
 
 | Wechat Pay | Ali Pay |
 | --- | --- |
-| <img src="./docs/wechat.jpg" height="300" /> | <img src="./docs/Ali.png" height="300" /> |
+| <img src="./docs/wechat.jpg" height="500" /> | <img src="./docs/Ali.png" height="500" /> |
 
 ## 如何使用
 ``` bash
