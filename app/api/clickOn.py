@@ -33,7 +33,7 @@ class Input(BaseModel):
 
 class ClickOn(Resource):
 
-    def post(self, item: Input):
+    async def post(self, item: Input):
         """
         - **dataType: int；必须；文件类型：1:链接地址，2:文件字节流**
         - **imageSource: str；必须；源文件地址或源文件流，参照dataType，dataType为1需要传链接地址，dateType为2需要传文件流。传文件流方式，要base64编码，并去掉base64头标识。**
