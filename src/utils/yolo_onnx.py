@@ -8,7 +8,7 @@
 # version    ：python 3.6
 # Description：
 """
-import cv2.cv2 as cv2
+import cv2
 import numpy as np
 import onnxruntime
 import time
@@ -19,6 +19,7 @@ from PIL import Image
 from .orientation import non_max_suppression, tag_images
 
 np.set_printoptions(precision=4)
+
 
 class YOLOV5_ONNX(object):
     def __init__(self,onnx_path, classes, providers=None):

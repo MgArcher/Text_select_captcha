@@ -17,6 +17,7 @@ import numpy as np
 from src.utils import ver_onnx
 from src.utils import yolo_onnx
 from src.utils.load import decryption
+from src.utils.ver_onnx import drow_img
 
 
 def open_image(file):
@@ -85,4 +86,4 @@ if __name__ == '__main__':
     result = cap.run(image_path)
     print(result)
     cap.yolo.infer(image_path)
-    ver_onnx.drow_img(image_path, result)
+    drow_img(image_path, result)
