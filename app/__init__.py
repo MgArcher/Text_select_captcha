@@ -44,4 +44,4 @@ app = FastAPI(
     docs_url=None, redoc_url=None
 )
 app = create_app(app)
-print('后台程序成功...')
+print('后台程序启动成功...')
