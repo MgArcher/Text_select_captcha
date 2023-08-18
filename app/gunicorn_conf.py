@@ -7,7 +7,7 @@
 # gunicorn 配置文件
 """
 运行方式
-gunicorn -c gunicorn_conf.py service:app
+gunicorn -c app/gunicorn_conf.py service:main
 """
 import multiprocessing
 import os
