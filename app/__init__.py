@@ -18,10 +18,7 @@ from app.api.clickOn import ClickOn
 from app.api.clickOnFile import ClickOnFile
 
 
-def create_app():
-    app = FastAPI()
-    # 关闭文档
-    # app = FastAPI(docs_url=None, redoc_url=None)
+def create_app(app):
     get_docs(app)
     # 配置跨域请求
     app.add_middleware(
@@ -38,3 +35,13 @@ def create_app():
 def add_api(api):
     api.add_resource(ClickOn(), "/clickOn", tages=["识别"], summary="返回识别结果")
     api.add_resource(ClickOnFile(), "/clickOnFile", tages=["识别"], summary="返回识别结果图片")
+
+
+app = FastAPI(
+    title="验证码识别",
+    description="验证码识别",
+    version="1.1.10",
+    docs_url=None, redoc_url=None
+)
+app = create_app(app)
+print('后台程序成功...')
