@@ -12,14 +12,15 @@ from fastapi import FastAPI
 
 from app.utils.res_api import Api
 from fastapi.middleware.cors import CORSMiddleware
-from app.utils.logs_docs import get_docs
+from app.utils.docs import swagger
 
 from app.api.clickOn import ClickOn
 from app.api.clickOnFile import ClickOnFile
 
 
 def create_app(app):
-    get_docs(app)
+    # 接口文档
+    swagger(app)
     # 配置跨域请求
     app.add_middleware(
         CORSMiddleware,
