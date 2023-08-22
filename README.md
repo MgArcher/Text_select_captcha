@@ -117,7 +117,10 @@ python bilbil.py
 推理部署过程是将 YOLO 和 Siamese 模型都转换为 ONNX 模型，以便在 CPU 上使用模型，并提高部署难度和运行速度。通过模型转换，可以将模型从原有的深度学习框架中的特定格式转换成 ONNX 格式，使得模型可以在多个平台上使用，并且可以在不同的编程语言之间轻松交互。  
 **onnx介绍：**
 ```
-ONNX，即开放神经网络交换格式（Open Neural Network Exchange），是一个可以让不同深度学习框架之间互相转换和使用模型的开放标准。它由 Facebook 和 Microsoft 共同开发，旨在为深度学习模型的部署和迁移提供更加方便和灵活的解决方案。ONNX 支持包括 PyTorch、TensorFlow、CNTK 和 MXNet 等在内的多个深度学习框架，可以将这些框架训练出的模型转换成 ONNX 格式，从而可以被其他框架或应用所使用。
+  ONNX，即开放神经网络交换格式（Open Neural Network Exchange），是一个可以让不同深度学习框架之间互相转换和
+使用模型的开放标准。它由 Facebook 和 Microsoft 共同开发，旨在为深度学习模型的部署和迁移提供更加方便和灵活的解决方案。
+ONNX 支持包括 PyTorch、TensorFlow、CNTK 和 MXNet 等在内的多个深度学习框架，可以将这些框架训练出的模型转换成
+ONNX 格式，从而可以被其他框架或应用所使用。
 
 ONNX 的主要优点包括：
 
