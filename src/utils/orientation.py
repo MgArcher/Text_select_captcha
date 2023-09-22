@@ -36,6 +36,9 @@ def tag_images(imgs, img_detections, img_size, classes, max_prob=0.5):
     """图片展示"""
     results = []
     zero = lambda x: int(x) if x > 0 else 0
+    if img_detections is None:
+        return results
+
     for img_i, (img, detections) in enumerate(zip(imgs, img_detections)):
         # Create plot
         if detections is not None:

@@ -11,13 +11,16 @@
 
 import os
 from io import BytesIO
-from PIL import Image
 import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 
 from src.utils import ver_onnx
 from src.utils import yolo_onnx
 from src.utils.load import decryption
 from src.utils.ver_onnx import drow_img
+
+save_path = os.path.join(os.path.dirname(__file__), '../model')
+path = lambda a, b: os.path.join(a, b)
 
 
 def open_image(file):
@@ -33,11 +36,37 @@ def open_image(file):
     return img
 
 
+def make_char(text):
+
+    # 创建图像
+    image_width = 32
+    image_height = 32
+    background_color = (255, 255, 255)  # 白色背景
+    text_color = (0, 0, 0)  # 黑色文本
+    font_size = 32
+    # text = "你"
+
+    image = Image.new("RGB", (image_width, image_height), background_color)
+    draw = ImageDraw.Draw(image)
+
+    # 加载字体
+    font_path = path(save_path, "simsun.ttc")# 字体文件路径
+    font = ImageFont.truetype(font_path, font_size)
+
+    # 计算文本位置居中
+    text_width, text_height = draw.textsize(text, font=font)
+    x = (image_width - text_width) // 2
+    y = (image_height - text_height) // 2
+
+    # 绘制文本
+    draw.text((x, y), text, font=font, fill=text_color)
+    # # 保存图像
+    # image.save("output.png")
+    return image
+
+
 class TextSelectCaptcha(object):
     def __init__(self, per_path='pre_model.bin', yolo_path='best.bin'):
-        save_path = os.path.join(os.path.dirname(__file__), '../model')
-
-        path = lambda a, b: os.path.join(a, b)
         per_path = path(save_path, per_path)
         yolo_path = path(save_path, yolo_path)
 
@@ -56,8 +85,13 @@ class TextSelectCaptcha(object):
         targets = [i.get("crop") for i in data if i.get("classes") == "target"]
         # 下方的字
         if input_chars:
-            chars = input_chars
-            chars = [open_image(char) for char in chars]
+            chars = []
+            for char in input_chars:
+                # 判断是否为路径来决定是打开图片还是生成图片
+                if os.path.isabs(char):
+                    chars.append(open_image(char))
+                else:
+                    chars.append(make_char(char))
         else:
             chars = [i.get("crop") for i in data if i.get("classes") == "char"]
             # 根据坐标进行排序
@@ -67,16 +101,21 @@ class TextSelectCaptcha(object):
         result = []
         for img_char in chars:
             slys = []
-            if len(targets) == 1:
+            if len(targets) == 0:
+                break
+            elif len(targets) == 1:
                 slys_index = 0
             else:
                 for target in targets:
                     img_target = img.crop(target)
                     similarity = self.pre.reason(img_char, img_target)
+
                     slys.append(similarity)
                 slys_index = slys.index(max(slys))
             result.append(targets[slys_index])
             targets.pop(slys_index)
+            if len(targets) == 0:
+                break
         return result
 
 
