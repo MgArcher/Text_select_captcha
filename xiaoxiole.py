@@ -74,7 +74,7 @@ def m(matr,rows, cols, row, col):
 
 def n(l):
     matr = np.array(l).T
-    print(matr)
+    # print(matr)
     k = ["上", "下", "左", "右"]
     rows, cols = matr.shape
     n = 1
@@ -86,7 +86,7 @@ def n(l):
                 print(f"{n}----->{mk(n, y)}")
                 print(k[y - 1])
                 # break
-                print(matr[2][1], matr[1][1])
+                # print(matr[2][1], matr[1][1])
                 return x
             n = n + 1
 

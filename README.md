@@ -2,16 +2,16 @@
 文字点选、选字、选择文字验证码识别  
 - 特点
 ``` 
-识别速度约在100~300ms之间  
+识别速度约在300~500ms之间  
 96%的准确率  
 小样本训练（此模型训练采用了300张验证码）  
 windows下python3.6、python3.8、python3.10测试使用通过  
 低消耗，代码经编译后在低配置机器上也可运行（1核2G服务器无压力运行）  
 ```
-## 效果演示
+# 效果演示
 ![Image text](./docs/res.gif)  
 
-## 免责声明
+# 免责声明
 **本项目旨在研究深度学习在验证码攻防上的应用。仅供学习交流使用，请勿用于非法用途，不得在任何商业使用，本人不承担任何法律责任。**
 
 # 请作者喝可乐**o(*￣︶￣*)o**  
@@ -19,8 +19,8 @@ windows下python3.6、python3.8、python3.10测试使用通过
 | Wechat Pay | Ali Pay |
 | --- | --- |
 | <img src="./docs/wechat.jpg" height="500" /> | <img src="./docs/Ali.png" height="500" /> |
-
-## 如何使用
+## 有什么问题或需求欢迎各位在lssues中提问或联系邮件**yj970814@163.com**
+# 如何使用
 ``` bash
 1、准备运行环境：
 pip install -r requirements.txt
@@ -44,19 +44,21 @@ python bilbil.py
 | --- | --- |--- |
 | <img src="./docs/res.jpg" width="300" height="300"> | <img src="./docs/res1.jpg" width="300" height="300"> | <img src="./docs/res2.jpg" width="300" height="300">|
 
-## 更新说明
+# 更新说明
 #### 2023.04.23更新: 更改检测识别模型，修改返回结构  
 #### 2023.08.18更新: 取消推理代码编译，只对模型加载地方进行编译；优化web接口
 #### 2023.09.22更新：增加消消乐验证码破解
+
+
+# 后续更新计划
+增加支持其他类型的点选验证码  
+旋转验证码感觉还蛮有意思的 有空可以搞一搞  
+
 ![Image text](./docs/xiaoxiaole.gif)  
 ``` bash
 python xiaoxiaole.py
 执行即可找出最近的可以被消除的行或者列
 ```
-
-## 后续更新计划
-增加支持其他类型的点选验证码  
-旋转验证码感觉还蛮有意思的 有空可以搞一搞  
 
 # 实现流程
 - 问题拆解  
@@ -144,5 +146,4 @@ ONNX 的主要优点包括：
 https://github.com/ultralytics/yolov5  
 https://github.com/bubbliiiing/Siamese-pytorch
 
-## 有什么问题或需求欢迎各位在lssues中提问或联系邮件**yj970814@163.com**
 ### 点个**star**再走呗！ 
