@@ -204,12 +204,13 @@ class YOLOV5_ONNX(object):
         #映射到原始图像
         img_shape=img.shape[2:]
         # print(img_size)
-        for det in results:  # detections per image
+        if results:
+            for det in results:  # detections per image
+                if det is not None and len(det):
+                    det[:, :4] = self.scale_coords(img_shape, det[:, :4],src_size).round()
+            # print(time.time()-start)
             if det is not None and len(det):
-                det[:, :4] = self.scale_coords(img_shape, det[:, :4],src_size).round()
-        # print(time.time()-start)
-        if det is not None and len(det):
-            self.draw(src_img, det)
+                self.draw(src_img, det)
 
     def plot_one_box(self,x, img, color=None, label=None, line_thickness=None):
         # Plots one bounding box on image img

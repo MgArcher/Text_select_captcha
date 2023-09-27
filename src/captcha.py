@@ -22,7 +22,6 @@ from src.utils.ver_onnx import drow_img
 save_path = os.path.join(os.path.dirname(__file__), '../model')
 path = lambda a, b: os.path.join(a, b)
 
-
 def open_image(file):
     if isinstance(file, np.ndarray):
         img = Image.fromarray(file)
@@ -66,12 +65,14 @@ def make_char(text):
 
 
 class TextSelectCaptcha(object):
-    def __init__(self, per_path='pre_model.bin', yolo_path='best.bin'):
+    def __init__(self, per_path='pre_model_v2.bin', yolo_path='best_v2.bin', sign=True):
         per_path = path(save_path, per_path)
         yolo_path = path(save_path, yolo_path)
-
-        self.yolo = yolo_onnx.YOLOV5_ONNX(decryption(yolo_path), classes=['target', 'title', 'char'], providers=['CPUExecutionProvider'])
-        self.pre = ver_onnx.PreONNX(decryption(per_path), providers=['CPUExecutionProvider'])
+        if sign:
+            yolo_path = decryption(yolo_path)
+            per_path = decryption(per_path)
+        self.yolo = yolo_onnx.YOLOV5_ONNX(yolo_path, classes=['target', 'title', 'char'], providers=['CPUExecutionProvider'])
+        self.pre = ver_onnx.PreONNX(per_path, providers=['CPUExecutionProvider'])
 
     def run(self, image_path, input_chars=None):
         """
@@ -111,6 +112,7 @@ class TextSelectCaptcha(object):
                     similarity = self.pre.reason(img_char, img_target)
 
                     slys.append(similarity)
+                print(slys)
                 slys_index = slys.index(max(slys))
             result.append(targets[slys_index])
             targets.pop(slys_index)

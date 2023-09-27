@@ -5,8 +5,9 @@
 识别速度约在300~500ms之间  
 96%的准确率  
 小样本训练（此模型训练采用了300张验证码）  
-windows下python3.6、python3.8、python3.10测试使用通过  
-低消耗，代码经编译后在低配置机器上也可运行（1核2G服务器无压力运行）  
+低消耗，代码在低配置机器上也可运行（1核2G服务器无压力运行）  
+因一些其他原因模型使用了加密手段，仅在windows下python3.6、python3.8、python3.10使用
+可自己训练模型使用本项目，不受平台限制
 ```
 # 效果演示
 ![Image text](./docs/res.gif)  
@@ -31,6 +32,18 @@ python service.py
 4、bilbil演示
 python bilbil.py
 ```  
+```python
+from src.captcha import TextSelectCaptcha
+# python代码使用
+"""
+per_path:   为孪生网络模型文件路径
+yolo_path:  为目标检测模型文件路径
+sign:       sign为True传入加密后的模型bin文件，为Flase传入onnx文件
+"""
+cap = TextSelectCaptcha(per_path='pre_model_v2.bin', yolo_path='best_v2.bin', sign=True)  
+image_path = "docs/res.jpg"
+result = cap.run(image_path)
+```
 结果如下：  
 ```json
 [
@@ -48,17 +61,15 @@ python bilbil.py
 #### 2023.04.23更新: 更改检测识别模型，修改返回结构  
 #### 2023.08.18更新: 取消推理代码编译，只对模型加载地方进行编译；优化web接口
 #### 2023.09.22更新：增加消消乐验证码破解
-
-
-# 后续更新计划
-增加支持其他类型的点选验证码  
-旋转验证码感觉还蛮有意思的 有空可以搞一搞  
-
 ![Image text](./docs/xiaoxiaole.gif)  
 ``` bash
 python xiaoxiaole.py
 执行即可找出最近的可以被消除的行或者列
 ```
+#### 2023.09.27更新：优化模型 增加了模型的泛化能力
+# 后续更新计划
+增加支持其他类型的点选验证码  
+旋转验证码感觉还蛮有意思的 有空可以搞一搞  
 
 # 实现流程
 - 问题拆解  
@@ -68,7 +79,7 @@ python xiaoxiaole.py
 **1、确定需要点击的字的数量和位置：** 对于点选式验证码，准确识别和定位需要点击的字的数量和位置是解决问题的关键。   其中，一种常见的目标检测算法是 YOLO，通过标注数据集和训练模型，可以实现对需要点击的字进行准确识别和定位。本项目采用的是 yolov5 模型，该模型在目标检测方面表现出色，具有高速和较高的准确性。  
 
 **2、对点击的字进行排序：** 在确定出需要点击的字的位置后，需要按照一定的规则对这些字进行排序。采用传统的方案是通过识别图片中的文字，然后按照文字位置进行排序，但这种方法训练困难。因此，本项目采用了图片匹配模型，使用 Siamese 孪生网络对需要点击的字与预先准备好的字库中的字进行匹配，找到最佳匹配的字，并按照一定的规则进行排序。Siamese 孪生网络在图像匹配方面表现优异，能够有效地提高排序的准确性和稳定性。
-- 训练集  
+- 部分训练集  
   
   百度网盘链接：https://pan.baidu.com/s/1IYfxVpanXyqVQ8ZFVOskrg 提取码：sp97
 - 训练模型  
