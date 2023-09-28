@@ -13,3 +13,4 @@ character1/
 make_data/
 src/utils/load.py
 model/*.onnx
+demo2.py

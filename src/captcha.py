@@ -100,19 +100,17 @@ class TextSelectCaptcha(object):
             chars = [img.crop(char) for char in chars]
 
         result = []
-        for img_char in chars:
+        for m, img_char in enumerate(chars):
             slys = []
             if len(targets) == 0:
                 break
             elif len(targets) == 1:
                 slys_index = 0
             else:
-                for target in targets:
+                for n, target in enumerate(targets):
                     img_target = img.crop(target)
                     similarity = self.pre.reason(img_char, img_target)
-
                     slys.append(similarity)
-                print(slys)
                 slys_index = slys.index(max(slys))
             result.append(targets[slys_index])
             targets.pop(slys_index)

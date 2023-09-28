@@ -144,6 +144,7 @@ class PreONNX(object):
             providers = ['CPUExecutionProvider']
         self.sess = onnxruntime.InferenceSession(path, providers=providers)
         self.loadSize = 512
+        self.input_shape = [105, 105]
 
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
@@ -160,37 +161,30 @@ class PreONNX(object):
             img = Image.open(file)
         return img
 
+    def open_image(self, file, input_shape, nc=3):
+        out = self.zhuanhuan(file)
+        # 改变大小 并保证其不失真
+        out = out.convert('RGB')
+        h, w = input_shape
+        out = out.resize((w, h), 1)
+        if nc == 1:
+            out = out.convert('L')
+        return out
+
+    def set_img(self, lines):
+        image = self.open_image(lines, self.input_shape, 3)
+        image = np.array(image).astype(np.float32) / 255.0
+        photo = np.expand_dims(np.transpose(image, (2, 0, 1)), 0)
+        return photo
+
     def reason(self, image_1, image_2):
-        image_1 = self.zhuanhuan(image_1)
-        image_2 = self.zhuanhuan(image_2)
-
-        image_1 = cvtColor(image_1)
-        image_2 = cvtColor(image_2)
-
-        input_shape = [105, 105]
-
-        # ---------------------------------------------------#
-        #   对输入图像进行不失真的resize
-        # ---------------------------------------------------#
-        image_1 = letterbox_image(image_1, [input_shape[1], input_shape[0]], False)
-        image_2 = letterbox_image(image_2, [input_shape[1], input_shape[0]], False)
-
-        # ---------------------------------------------------------#
-        #   归一化+添加上batch_size维度
-        # ---------------------------------------------------------#
-        photo_1 = preprocess_input(np.array(image_1, np.float32))
-        photo_2 = preprocess_input(np.array(image_2, np.float32))
-
-        photo_1 = np.expand_dims(np.transpose(photo_1, (2, 0, 1)), 0)
-        photo_2 = np.expand_dims(np.transpose(photo_2, (2, 0, 1)), 0)
-
-
+        photo_1 = self.set_img(image_1)
+        photo_2 = self.set_img(image_2)
         out = self.sess.run(None, {"x1": photo_1, "x2": photo_2})
         out = out[0]
         out = self.sigmoid(out)
         out = out[0][0]
         return out
-
 
 
 if __name__ == '__main__':
