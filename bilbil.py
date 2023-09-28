@@ -82,6 +82,7 @@ class BilBil(object):
         url = re.findall('url\("(.+?)"\);', f)
         if url:
             url = url[0]
+            print(url)
             content = requests.get(url).content
             #送入模型识别
             plan = self.cap.run(content)
@@ -99,15 +100,22 @@ class BilBil(object):
                 time.sleep(0.5)
             xpath = "/html/body/div[4]/div[2]/div[6]/div/div/div[3]/a/div"
             self.click(xpath)
+
+            try:
+                time.sleep(1)
+                xpath = "/html/body/div[4]/div[2]/div[6]/div/div/div[3]/div/a[2]"
+                self.click(xpath)
+                sign = False
+            except:
+                sign = True
         else:
             print("error: 未获得到验证码地址")
             # draw(content, res)
-            content = None
+            sign = False
 
-        return content
+        return sign
 
 
 if __name__ == '__main__':
     jd = BilBil()
-    jd.bibi()
-
+    s = jd.bibi()

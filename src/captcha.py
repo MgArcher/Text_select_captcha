@@ -111,6 +111,7 @@ class TextSelectCaptcha(object):
                     img_target = img.crop(target)
                     similarity = self.pre.reason(img_char, img_target)
                     slys.append(similarity)
+                print(slys)
                 slys_index = slys.index(max(slys))
             result.append(targets[slys_index])
             targets.pop(slys_index)
