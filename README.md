@@ -26,7 +26,7 @@
 1、准备运行环境：
 pip install -r requirements.txt
 2、普通使用：
-python dome.py
+python demo.py
 3、服务启动方式，启动后访问http://127.0.0.1:8000/docs#/查看接口文档
 python service.py
 4、bilbil演示
