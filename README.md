@@ -6,8 +6,17 @@
 96%的准确率  
 小样本训练（此模型训练采用了300张验证码）  
 低消耗，代码在低配置机器上也可运行（1核2G服务器无压力运行）  
-因一些其他原因模型使用了加密手段，仅在windows下python3.6、python3.8、python3.10使用
+仅在windows下python3.6、python3.8、python3.10使用
 可自己训练模型使用本项目，不受平台限制
+```
+
+# 常见问题：
+**关于ModuleNotFoundError: No module named 'src.utils.load' 问题：**  
+模型文件被经过处理后只能使用于本项目中，本项目现在仅支持在windows下python3.6、python3.8、python3.10使用    
+可以传入自己训练的onnx模型即可再其他环境中使用，可将参数sign修改为False并传入相应的onnx模型即可    
+```python
+from src.captcha import TextSelectCaptcha, drow_img
+cap = TextSelectCaptcha(per_path='xxx.onnx', yolo_path='xxx.onnx', sign=False)
 ```
 # 效果演示
 ![Image text](./docs/res.gif)  

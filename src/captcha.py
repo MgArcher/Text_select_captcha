@@ -16,7 +16,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from src.utils import ver_onnx
 from src.utils import yolo_onnx
-from src.utils.load import decryption
+
 from src.utils.ver_onnx import drow_img
 
 save_path = os.path.join(os.path.dirname(__file__), '../model')
@@ -66,9 +66,15 @@ def make_char(text):
 
 class TextSelectCaptcha(object):
     def __init__(self, per_path='pre_model_v2.bin', yolo_path='best_v2.bin', sign=True):
+        """
+        :param per_path: 识别模型文件路径
+        :param yolo_path: 检测模型文件路径
+        :param sign: 传入状态判断
+        """
         per_path = path(save_path, per_path)
         yolo_path = path(save_path, yolo_path)
         if sign:
+            from src.utils.load import decryption
             yolo_path = decryption(yolo_path)
             per_path = decryption(per_path)
         self.yolo = yolo_onnx.YOLOV5_ONNX(yolo_path, classes=['target', 'title', 'char'], providers=['CPUExecutionProvider'])
@@ -118,6 +124,53 @@ class TextSelectCaptcha(object):
             if len(targets) == 0:
                 break
         return result
+
+    def fex_run(self, image_path):
+        img = open_image(image_path)
+        data = self.yolo.decect(image_path)
+        res = [
+            (0, 0, 55, 40), (55, 0, 55, 40), (110, 0, 55, 40),
+            (0, 40, 55, 40), (55, 40, 55, 40),(110, 40, 55, 40),
+            (0, 80, 55, 40), (55, 80, 55, 40), (110, 80, 55, 40),
+        ]
+        data.extend(
+            [{'crop': self.remove_whitespace(img, i), 'classes': 'target', 'prob': 0.8} for i in res]
+        )
+        # 需要选择的字
+        targets = [i.get("crop") for i in data if i.get("classes") == "target"]
+        targets = list(filter(lambda x: x is not None, targets))
+        targets_copy = targets.copy()
+        chars = [i.get("crop") for i in data if i.get("classes") == "char"]
+        # 根据坐标进行排序
+        chars.sort(key=lambda x: x[0])
+        chars = [img.crop(char) for char in chars]
+
+        result = []
+        if targets:
+            len_t = len(chars) - 1
+            for i, img_char in enumerate(chars):
+                slys = []
+                if len(targets) == 1:
+                    slys_index = 0
+                else:
+                    if -(len_t - i) != 0:
+                        targets_ = targets[:-(len_t - i)]
+                    else:
+                        targets_ = targets
+                    for target in targets_:
+                        img_target = img.crop(target)
+                        similarity = self.pre.reason(img_char, img_target)
+                        slys.append(similarity)
+                    slys_index = slys.index(max(slys))
+                result.append(targets[slys_index])
+                targets = targets[slys_index + 1:]
+
+        kk = []
+        for r in result:
+            if r in targets_copy:
+                kk.append(str(targets_copy.index(r)))
+        order = "".join(kk)
+        return result, order
 
 
 if __name__ == '__main__':
