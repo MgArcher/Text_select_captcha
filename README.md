@@ -67,6 +67,7 @@ result = cap.run(image_path)
 #### 2023.08.18更新: 取消推理代码编译，只对模型加载地方进行编译；优化web接口
 #### 2023.09.22更新：增加消消乐验证码破解
 ![Image text](./docs/xiaoxiaole.gif)  
+消消乐的说明 https://juejin.cn/post/7282889267030016061  
 ``` bash
 python xiaoxiaole.py
 执行即可找出最近的可以被消除的行或者列
