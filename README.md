@@ -12,7 +12,7 @@
 
 # 常见问题：
 **关于ModuleNotFoundError: No module named 'src.utils.load' 问题：**  
-模型文件被经过处理后只能使用于本项目中，本项目现在仅支持在windows下python3.6、python3.8、python3.10使用    
+模型文件被经过处理后只能使用于本项目中，本项目现在**仅支持在windows下python3.6、python3.8、python3.10使用**      
 可以传入自己训练的onnx模型即可再其他环境中使用，可将参数sign修改为False并传入相应的onnx模型即可    
 ```python
 from src.captcha import TextSelectCaptcha, drow_img
