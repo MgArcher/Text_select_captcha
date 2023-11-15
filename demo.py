@@ -10,6 +10,9 @@
 """
 from src.captcha import TextSelectCaptcha, drow_img
 import time
+from drawing import draw
+
+
 s = time.time()
 cap = TextSelectCaptcha()
 print("加载模型耗时：", time.time() - s)
@@ -23,3 +26,4 @@ cap.yolo.infer(image_path)
 print("生成图片res1.jpg")
 drow_img(image_path, result)
 print("生成图片res2.jpg")
+draw("res2.jpg")

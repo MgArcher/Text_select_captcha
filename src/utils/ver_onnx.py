@@ -22,7 +22,7 @@ import random
 np.set_printoptions(precision=4)
 
 
-def drow_img(image_path,result ):
+def drow_img(image_path,result, save_image_path="res2.jpg"):
     img = cv2.imread(image_path)
 
     def plot_one_box(x, img, color=None, label=None, line_thickness=None):
@@ -43,7 +43,7 @@ def drow_img(image_path,result ):
     for i, xyxy in enumerate(result):
         label = i + 1
         img = plot_one_box(xyxy, img, label=str(label), color=colors[i], line_thickness=1)
-    cv2.imwrite("res2.jpg",img)
+    cv2.imwrite(save_image_path,img)
 
 
 def preprocess_input(x):
@@ -186,6 +186,26 @@ class PreONNX(object):
         out = out[0][0]
         return out
 
+    def reason_all(self, image_1, image_2_list):
+        photo_1 = self.set_img(image_1)
+        photo_2_all = None
+        photo_1_all = photo_1
+        for image_2 in image_2_list:
+            photo_2 = self.set_img(image_2)
+            if photo_2_all is None:
+                photo_2_all = photo_2
+            else:
+                photo_2_all = np.concatenate((photo_2_all, photo_2))
+                photo_1_all = np.concatenate((photo_1_all, photo_1))
+
+        out = self.sess.run(None, {"x1": photo_1_all, "x2": photo_2_all})
+        out = out[0]
+        out = self.sigmoid(out)
+        out = out.tolist()
+        out = [i[0] for i in out]
+
+        return out
+
 
 if __name__ == '__main__':
     pre_onnx_path = "pre_model.onnx"
@@ -194,5 +214,5 @@ if __name__ == '__main__':
     image_2 = r"datasets\bilbil\character2\plan_4.jpg"
     image_1 = "img.png"
     image_2 = "img_1.png"
-    large_img = pre.reason(image_1, image_2)
+    large_img = pre.reason_all(image_1, image_2)
     print(large_img)

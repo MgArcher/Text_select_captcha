@@ -14,3 +14,6 @@ make_data/
 src/utils/load.py
 model/*.onnx
 demo2.py
+verify.py
+verify_data.txt
+verify_data/
