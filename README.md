@@ -29,6 +29,7 @@ cap = TextSelectCaptcha(per_path='xxx.onnx', yolo_path='xxx.onnx', sign=False)
 | Wechat Pay | Ali Pay |
 | --- | --- |
 | <img src="./docs/wechat.jpg" height="500" /> | <img src="./docs/Ali.png" height="500" /> |
+## 有定制需求联系邮件**yj970814@163.com**
 ## 有什么问题或需求欢迎各位在lssues中提问或联系邮件**yj970814@163.com**
 # 如何使用
 ``` bash
