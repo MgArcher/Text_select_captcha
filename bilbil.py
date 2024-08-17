@@ -22,7 +22,7 @@ from src import captcha
 class BilBil(object):
     def __init__(self):
         chrome_options = self.options()
-        self.browser = webdriver.Chrome(chrome_options=chrome_options)
+        self.browser = webdriver.Chrome(options=chrome_options)
         # self.browser.maximize_window()
         self.wait = WebDriverWait(self.browser, 30)
         self.url = "https://passport.bilibili.com/login"
@@ -41,36 +41,47 @@ class BilBil(object):
 
     def get_location(self, element):
         # 获取元素在屏幕上的位置信息
-        location = element.location
-        size = element.size
-        height = size['height']
-        width = size['width']
-        left = location['x']
-        top = location['y']
-        right = left + width
-        bottom = top + height
-        script = f"return {{'left': {left}, 'top': {top}, 'right': {right}, 'bottom': {bottom}}};"
-        rect = self.browser.execute_script(script)
+        # location = element.rect
+        # size = element.size
+        # height = size['height']
+        # width = size['width']
+        # left = location['x']
+        # top = location['y']
 
+        rect = element.rect
+        left = rect['x']
+        top = rect['y']
+        width = rect['width']
+        height = rect['height']
+
+        print(rect)
+        # right = left + width
+        # bottom = top + height
+        # script = f"return {{'left': {left}, 'top': {top}, 'right': {right}, 'bottom': {bottom}}};"
+        # rect = self.browser.execute_script(script)
+        # print(rect)
         # # 计算元素的中心坐标
         # center_x = int((rect['left'] + rect['right']) / 2)
         # center_y = int((rect['top'] + rect['bottom']) / 2)
         # # 计算元素左上
-        center_x = int(rect['left'])
-        center_y = int(rect['top'])
+        center_x = int(rect['x'] - 50)
+        center_y = int(rect['y'])
         return center_x, center_y
 
     def bibi(self):
         url = "https://passport.bilibili.com/login"
         self.browser.get(url)
-        xpath = '//*[@id="app"]/div[2]/div[2]/div[3]/div[2]/div[1]/div[1]/input'
+        # xpath = '//*[@id="app"]/div[2]/div[2]/div[3]/div[2]/div[1]/div[1]/input'
+        xpath = '//*[@id="app-main"]/div/div[2]/div[3]/div[2]/div[1]/div[1]/input'
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, xpath))).send_keys('Python')
 
-        xpath = '//*[@id="app"]/div[2]/div[2]/div[3]/div[2]/div[1]/div[3]/input'
+        # xpath = '//*[@id="app"]/div[2]/div[2]/div[3]/div[2]/div[1]/div[3]/input'
+        xpath = '//*[@id="app-main"]/div/div[2]/div[3]/div[2]/div[1]/div[3]/input'
         self.wait.until(EC.presence_of_element_located(
             (By.XPATH, xpath))).send_keys('Python')
-        xpath = '//*[@id="app"]/div[2]/div[2]/div[3]/div[2]/div[2]/div[2]'
+        # xpath = '//*[@id="app"]/div[2]/div[2]/div[3]/div[2]/div[2]/div[2]'
+        xpath = '//*[@id="app-main"]/div/div[2]/div[3]/div[2]/div[2]/div[2]'
         self.click(xpath)
 
         time.sleep(2)
@@ -88,9 +99,15 @@ class BilBil(object):
             plan = self.cap.run(content)
             # 获取验证码坐标
             X, Y = self.get_location(logo)
+            print(X, Y)
             # 前端展示对于原图的缩放比例
-            lan_x = 306/334
+            # 306 * 343
+            # 344 *384
+            lan_x = 306/344
             lan_y = 343/384
+            # lan_x = lan_y = 1
+            # ActionChains(self.browser).move_by_offset(X, Y).click().perform()
+            # time.sleep(11111)
             for crop in plan:
                 x1, y1, x2, y2 = crop
                 x, y = [(x1 + x2) / 2, (y1 + y2) / 2]
@@ -98,9 +115,10 @@ class BilBil(object):
                 ActionChains(self.browser).move_by_offset(X + x*lan_x, Y + y*lan_y).click().perform()
                 ActionChains(self.browser).move_by_offset(-(X + x*lan_x), -(Y + y*lan_y)).perform()  # 将鼠标位置恢复到移动前
                 time.sleep(0.5)
+            # time.sleep(1000)
             xpath = "/html/body/div[4]/div[2]/div[6]/div/div/div[3]/a/div"
             self.click(xpath)
-
+            time.sleep(1000)
             try:
                 time.sleep(1)
                 xpath = "/html/body/div[4]/div[2]/div[6]/div/div/div[3]/div/a[2]"

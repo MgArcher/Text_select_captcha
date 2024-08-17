@@ -19,11 +19,11 @@ from PIL import Image
 
 
 # 图片读取操作
-def set_imageSource(data):
-    if 'dataType' in data.keys() and data['dataType'] == 1:
-        imageSource = requests.get(data['imageSource'], verify=False).content
+def set_imageSource(dataType, imageSource):
+    if dataType == 1:
+        imageSource = requests.get(imageSource, verify=False).content
     else:
-        imageSource = base64.b64decode(bytes(data['imageSource'], 'utf-8'))
+        imageSource = base64.b64decode(bytes(imageSource, 'utf-8'))
     return imageSource
 
 

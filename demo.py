@@ -10,7 +10,7 @@
 """
 from src.captcha import TextSelectCaptcha, drow_img
 import time
-from drawing import draw
+from src.drawing import draw
 
 
 s = time.time()
