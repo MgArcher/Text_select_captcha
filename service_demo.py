@@ -11,7 +11,7 @@
 import base64
 import requests
 
-url = "http://localhost:8000/clickOn"
+url = "http://localhost:8000/dianxuan/identify"
 
 image_path = "docs/res.jpg"
 with open(image_path, 'rb') as f:
