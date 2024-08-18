@@ -12,16 +12,27 @@ import io
 import random
 import base64
 
-import requests
+import aiohttp
 import cv2
 import numpy as np
 from PIL import Image
 
 
+async def fetch(url):
+    timeout = aiohttp.ClientTimeout(
+        total=10,  # 请求的总超时（秒）
+        connect=5,  # 连接超时（秒）
+        sock_read=5,  # 套接字读取超时（秒）
+        sock_connect=5  # 套接字连接超时（秒）
+    )
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, ssl=False, timeout=timeout) as response:
+            return await response.read()
+
 # 图片读取操作
-def set_imageSource(dataType, imageSource):
+async def set_imageSource(dataType, imageSource):
     if dataType == 1:
-        imageSource = requests.get(imageSource, verify=False).content
+        imageSource = await fetch(imageSource)
     else:
         imageSource = base64.b64decode(bytes(imageSource, 'utf-8'))
     return imageSource
@@ -30,6 +41,7 @@ def set_imageSource(dataType, imageSource):
 # 图片绘制
 def drow_img(image_path,result):
     img = Image.open(io.BytesIO(image_path))
+    img = img.convert("RGB")
     img = np.array(img)
 
     def plot_one_box(x, img, color=None, label=None, line_thickness=None):
