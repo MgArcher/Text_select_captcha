@@ -21,16 +21,6 @@ cap = TextSelectCaptcha(per_path='xxx.onnx', yolo_path='xxx.onnx', sign=False)
 # 效果演示
 ![Image text](./docs/res.gif)  
 
-# 免责声明
-**本项目旨在研究深度学习在验证码攻防上的应用。仅供学习交流使用，请勿用于非法用途，不得在任何商业使用，本人不承担任何法律责任。**
-
-# 请作者喝可乐**o(*￣︶￣*)o**  
-
-| Wechat Pay | Ali Pay |
-| --- | --- |
-| <img src="./docs/wechat.jpg" height="500" /> | <img src="./docs/Ali.png" height="500" /> |
-## 有定制需求联系邮件**yj970814@163.com**
-## 有什么问题或需求欢迎各位在lssues中提问或联系邮件**yj970814@163.com**
 # 如何使用
 ``` bash
 1、准备运行环境：

@@ -1,13 +1,3 @@
-# !/usr/bin/env python
-# -*-coding:utf-8 -*-
-
-"""
-# File       : jy_click.py
-# Time       ：2023/11/13 16:49
-# Author     ：yujia
-# version    ：python 3.6
-# Description：
-"""
 import os
 
 from src.utils import ver_onnx
@@ -15,12 +5,11 @@ from src.utils import yolo_onnx
 from src.utils import utils
 
 
-class JYClick(object):
+class ClickCaptchaSolver(object):
     def __init__(self, per_path='pre_model_v3.bin', yolo_path='best_v2.bin', sign=True):
         """
         jiyan 最好 pre_model_v3.onnx
         nine 最好  pre_model_v5.onnx
-
         """
         save_path = os.path.join(os.path.dirname(__file__), '../../model')
         path = lambda a, b: os.path.join(a, b)
@@ -72,10 +61,10 @@ class JYClick(object):
 
 if __name__ == '__main__':
     image_path = "../../docs/res.jpg"
-    cap = JYClick()
+    cap = ClickCaptchaSolver()
     result = cap.run(image_path)
     print(result)
-    utils.drow_img(image_path, result, "jy_click.jpg")
+    utils.drow_img(image_path, result, "click_captcha_solver.jpg")
 
 
 

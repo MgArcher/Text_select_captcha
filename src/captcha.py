@@ -8,20 +8,20 @@
 # version    ：python 3.6
 # Description：
 """
-from src.method import jy_click
+from src.method.click_captcha_solver import ClickCaptchaSolver
 from src.utils.utils import drow_img
 
 
 class TextSelectCaptcha(object):
     def __init__(self, per_path='pre_model_v3.bin', yolo_path='best_v2.bin', sign=True):
-        self.jy_click = jy_click.JYClick(per_path=per_path, yolo_path=yolo_path, sign=sign)
-        self.yolo = self.jy_click.yolo
+        self.click_captcha_solver = ClickCaptchaSolver(per_path=per_path, yolo_path=yolo_path, sign=sign)
+        self.yolo = self.click_captcha_solver.yolo
 
         self.method = {
-            "jy_click": self.jy_click,
+            "click_captcha_solver": self.click_captcha_solver,
         }
 
-    def run(self, image_path, method="jy_click"):
+    def run(self, image_path, method="click_captcha_solver"):
         result = self.method[method].run(image_path)
         return result
 
