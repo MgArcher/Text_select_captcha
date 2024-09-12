@@ -21,6 +21,7 @@ image_path = "docs/res.jpg"
 s = time.time()
 
 result = cap.run(image_path)
+print(f"推理耗时：{int((time.time() - s) *1000)}ms", )
 print("文字坐标：", result, f"耗时：{int((time.time() - s) * 1000)}ms", )
 cap.yolo.infer(image_path)
 print("生成图片res1.jpg")
