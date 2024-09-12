@@ -29,7 +29,7 @@ async def identify_picture(Item: Input):
    - **imageID: str；不必须；图片名称或id**
     """
     try:
-        res = operation.run(Item)
+        res = await operation.run(Item)
     except:
         print("error：", traceback.format_exc())
         return errors.bad_error()
@@ -44,7 +44,7 @@ async  def show_result(Item: Input):
    - **imageID: str；不必须；图片名称或id**
     """
     try:
-        img_bytes = operation.run_show(Item)
+        img_bytes = await operation.run_show(Item)
     except:
         print("error：", traceback.format_exc())
         return errors.bad_error()
