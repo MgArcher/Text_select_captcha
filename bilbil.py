@@ -18,6 +18,13 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from src import captcha
 
+cap = captcha.TextSelectCaptcha()
+def verify(url):
+    content = requests.get(url).content
+    # 送入模型识别
+    plan = cap.run(content)
+    return plan
+
 
 class BilBil(object):
     def __init__(self):
@@ -26,7 +33,6 @@ class BilBil(object):
         # self.browser.maximize_window()
         self.wait = WebDriverWait(self.browser, 30)
         self.url = "https://passport.bilibili.com/login"
-        self.cap = captcha.TextSelectCaptcha()
 
     # def __del__(self):
     #     self.browser.close()
@@ -40,30 +46,7 @@ class BilBil(object):
             (By.XPATH, xpath))).click()
 
     def get_location(self, element):
-        # 获取元素在屏幕上的位置信息
-        # location = element.rect
-        # size = element.size
-        # height = size['height']
-        # width = size['width']
-        # left = location['x']
-        # top = location['y']
-
         rect = element.rect
-        left = rect['x']
-        top = rect['y']
-        width = rect['width']
-        height = rect['height']
-
-        print(rect)
-        # right = left + width
-        # bottom = top + height
-        # script = f"return {{'left': {left}, 'top': {top}, 'right': {right}, 'bottom': {bottom}}};"
-        # rect = self.browser.execute_script(script)
-        # print(rect)
-        # # 计算元素的中心坐标
-        # center_x = int((rect['left'] + rect['right']) / 2)
-        # center_y = int((rect['top'] + rect['bottom']) / 2)
-        # # 计算元素左上
         center_x = int(rect['x'] - 50)
         center_y = int(rect['y'])
         return center_x, center_y
@@ -94,9 +77,8 @@ class BilBil(object):
         if url:
             url = url[0]
             print(url)
-            content = requests.get(url).content
             #送入模型识别
-            plan = self.cap.run(content)
+            plan = verify(url)
             # 获取验证码坐标
             X, Y = self.get_location(logo)
             print(X, Y)
