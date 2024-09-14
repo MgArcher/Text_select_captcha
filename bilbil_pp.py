@@ -62,7 +62,10 @@ async def login(page):
     await elements[0].click()
     xpath = '//*[@class="geetest_item_wrap"]'
     element = await page.waitForXPath(xpath)
-    await asyncio.sleep(2)
+    await page.waitForFunction('''() => {  
+        const element = document.querySelector('[class="geetest_item_wrap"]');  
+        return element && element.getAttribute("style") !== null;  
+    }''')
     style_content = await page.evaluate('(element) => element.getAttribute("style")', element)
     url = re.findall('url\("(.+?)"\);', style_content) if style_content else None
     if url:

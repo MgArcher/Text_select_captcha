@@ -18,7 +18,7 @@ class Input(BaseModel):
 
 
 class OutPut(BaseModel):
-    code: str
+    code: int
     msg: str
     data: Union[list, dict, str]
 

@@ -16,7 +16,7 @@ cap_model = captcha.TextSelectCaptcha()
 
 
 async def run(item):
-    imageID = item.imageID
+    imageID = item.imageID if item.imageID else ""
     imageSource = await interface.set_imageSource(item.dataType, item.imageSource)
     res = cap_model.run(imageSource)
     centre = lambda x1, y1, x2, y2: [(x1 + x2) / 2, (y1 + y2) / 2]

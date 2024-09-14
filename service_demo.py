@@ -10,6 +10,8 @@
 """
 import base64
 import requests
+import json
+
 
 url = "http://localhost:8000/dianxuan/identify"
 
@@ -20,10 +22,13 @@ with open(image_path, 'rb') as f:
 data = {
   "dataType": 2,
   "imageSource": base64.b64encode(t).decode('utf-8'),
-  "imageID": "string"
+  # "imageID": "string"
 }
-import json
 
 print(json.dumps(data, ensure_ascii=False, indent=4))
 response = requests.post(url, json=data)
+print(response.text)
+
+data = json.dumps(data)
+response = requests.post(url, data=data)
 print(response.text)
