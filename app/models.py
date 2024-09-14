@@ -25,7 +25,7 @@ class OutPut(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                      "code": "200",
+                      "code": 200,
                       "msg": "成功",
                       "data": {
                         "imageID": "string",
