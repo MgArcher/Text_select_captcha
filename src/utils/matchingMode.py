@@ -14,6 +14,8 @@ import numpy as np
 
 def find_overall_index(matrix):
     "寻找全局最大值数依次排序"
+    if not matrix:
+        return []
     # 转换为 NumPy 数组便于处理
     matrix = np.array(matrix)
 

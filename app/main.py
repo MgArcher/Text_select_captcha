@@ -22,4 +22,5 @@ app.add_middleware(
 app.include_router(api_router)
 
 # 挂载swagger静态页面
-app.mount("/static", StaticFiles(directory=f"{os.path.dirname(__file__)}/swagger"), name="static")
+root = os.path.abspath(os.path.dirname(__file__))
+app.mount("/swagger", StaticFiles(directory=f"{root}/swagger"), name="swagger")
