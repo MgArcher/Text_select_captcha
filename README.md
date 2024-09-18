@@ -1,6 +1,6 @@
 # 点击选择文字验证码识别
 文字点选、选字、选择文字验证码识别  
-在线体验地址：http://124.222.86.140:8000
+**在线体验地址：http://124.222.86.140:8000**
 - 特点
 ``` 
 识别速度约在300~500ms之间  
@@ -12,13 +12,15 @@
 ```
 
 # 常见问题：
-**关于ModuleNotFoundError: No module named 'src.utils.load' 问题：**  
+**1、关于ModuleNotFoundError: No module named 'src.utils.load' 问题：**  
 模型文件被经过处理后只能使用于本项目中，本项目现在**仅支持在windows下python3.6、python3.8、python3.10使用**      
 可以传入自己训练的onnx模型即可再其他环境中使用，可将参数sign修改为False并传入相应的onnx模型即可    
 ```python
 from src.captcha import TextSelectCaptcha, drow_img
 cap = TextSelectCaptcha(per_path='xxx.onnx', yolo_path='xxx.onnx', sign=False)
 ```
+**2、关于在其他验证码上效果不好的问题：**  
+模型文件只对这一种验证码做了训练，其他类型未作训练所以不支持，可自行训练模型配置于本项目中，支持大家使用本项目训练
 # 效果演示
 ![Image text](./docs/res.gif)  
 
