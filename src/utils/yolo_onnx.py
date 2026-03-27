@@ -22,11 +22,9 @@ np.set_printoptions(precision=4)
 
 
 class YOLOV5_ONNX(object):
-    def __init__(self,onnx_path, classes, providers=None):
+    def __init__(self,onnx_session, classes):
         '''初始化onnx'''
-        if not providers:
-            providers = ['CPUExecutionProvider']
-        self.onnx_session=onnxruntime.InferenceSession(onnx_path, providers=providers)
+        self.onnx_session = onnx_session
         # print(onnxruntime.get_device())
         self.input_name=self.get_input_name()
         self.output_name=self.get_output_name()

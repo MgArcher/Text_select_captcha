@@ -140,9 +140,7 @@ def letterbox_image(image, size, letterbox_image):
 
 class PreONNX(object):
     def __init__(self, path, providers=None):
-        if not providers:
-            providers = ['CPUExecutionProvider']
-        self.sess = onnxruntime.InferenceSession(path, providers=providers)
+        self.sess = path
         self.loadSize = 512
         self.input_shape = [105, 105]
 

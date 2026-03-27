@@ -68,6 +68,8 @@ async def login(page):
     }''')
     style_content = await page.evaluate('(element) => element.getAttribute("style")', element)
     url = re.findall('url\("(.+?)"\);', style_content) if style_content else None
+    print(url)
+    # await asyncio.sleep(111)
     if url:
         plan = await verify(url[0])
     else:
@@ -85,7 +87,7 @@ async def login(page):
     }''', element)
     print(f"识别位置信息: {plan}")
     print(f"元素位置信息: {bounding_box}")
-    X, Y = bounding_box['x'], bounding_box['y']
+    X, Y = bounding_box['x'], bounding_box['y'] - 5
     lan_x = 306 / 344
     lan_y = 343 / 384
     for crop in plan:
@@ -93,9 +95,9 @@ async def login(page):
         x, y = [(x1 + x2) / 2, (y1 + y2) / 2]
         x, y = X + x * lan_x, Y + y * lan_y
         await page.mouse.click(x, y)  # 在坐标 (100, 100) 点击
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(1)
 
-    xpath = "/html/body/div[4]/div[2]/div[6]/div/div/div[3]/a/div"
+    xpath = "/html/body/div[3]/div[2]/div[6]/div/div/div[3]/a"
     elements = await page.xpath(xpath)
     await elements[0].click()
 

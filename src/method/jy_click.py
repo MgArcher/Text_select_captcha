@@ -26,15 +26,16 @@ class JYClick(object):
         path = lambda a, b: os.path.join(a, b)
         per_path = path(save_path, per_path)
         yolo_path = path(save_path, yolo_path)
+        GPU = False
         if sign:
             try:
                 from src.utils.load import decryption
             except:
                 raise Exception("Error! 请在windows下的python3.6、3.8、3.10环境下使用")
-            yolo_path = decryption(yolo_path)
-            per_path = decryption(per_path)
-        self.yolo = yolo_onnx.YOLOV5_ONNX(yolo_path, classes=['target', 'title', 'char'], providers=['CPUExecutionProvider'])
-        self.pre = ver_onnx.PreONNX(per_path, providers=['CPUExecutionProvider'])
+            yolo_path = decryption(yolo_path, GPU)
+            per_path = decryption(per_path, GPU)
+        self.yolo = yolo_onnx.YOLOV5_ONNX(yolo_path, classes=['target', 'title', 'char'])
+        self.pre = ver_onnx.PreONNX(per_path)
 
     def run(self, image_path):
         img = utils.open_image(image_path)

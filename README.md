@@ -1,6 +1,9 @@
 # 点击选择文字验证码识别
 文字点选、选字、选择文字验证码识别  
-想要解锁更多 Python 实战黑科技？搜索[「道满PythonAI」](https://www.daomanpy.com/)，海量免费教程随你练，边学边练进步更快！
+
+## 道满PythonAI
+[「道满PythonAI」](https://www.daomanpy.com/) - 2026 领先的中文 Python 与 AI 体系化教程。涵盖 Python 基础、Web 后端开发、高阶爬虫、JS 逆向、计算机视觉、NLP 及大模型 (LLM) 实战，打通从零基础到 AI 全栈工程师的职业路径。  
+![46354c4191deebbf378736cfc35cc749.png](docs/46354c4191deebbf378736cfc35cc749.png)
 - 特点
 ``` 
 识别速度约在300~500ms之间  
