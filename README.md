@@ -1,9 +1,7 @@
 # 点击选择文字验证码识别
 文字点选、选字、选择文字验证码识别  
 
-## 道满PythonAI
-[「道满PythonAI」](https://www.daomanpy.com/) - 2026 领先的中文 Python 与 AI 体系化教程。涵盖 Python 基础、Web 后端开发、高阶爬虫、JS 逆向、计算机视觉、NLP 及大模型 (LLM) 实战，打通从零基础到 AI 全栈工程师的职业路径。  
-![46354c4191deebbf378736cfc35cc749.png](docs/46354c4191deebbf378736cfc35cc749.png)
+
 - 特点
 ``` 
 识别速度约在300~500ms之间  
@@ -29,6 +27,10 @@ cap = TextSelectCaptcha(per_path='xxx.onnx', yolo_path='xxx.onnx', sign=False)
 
 # 免责声明
 **本项目旨在研究深度学习在验证码攻防上的应用。仅供学习交流使用，请勿用于非法用途，不得在任何商业使用，本人不承担任何法律责任。**
+
+## 道满PythonAI
+[「道满PythonAI」](https://www.daomanpy.com/) - 2026 领先的中文 Python 与 AI 体系化教程。涵盖 Python 基础、Web 后端开发、高阶爬虫、JS 逆向、计算机视觉、NLP 及大模型 (LLM) 实战，打通从零基础到 AI 全栈工程师的职业路径。  
+![46354c4191deebbf378736cfc35cc749.png](docs/46354c4191deebbf378736cfc35cc749.png)
 
 # 请作者喝可乐**o(*￣︶￣*)o**  
 
