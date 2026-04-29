@@ -15,24 +15,6 @@
 - **平台支持**：全平台支持，python3.8+以上版本
 - **可扩展性**：支持自行训练模型，不受固定平台限制
 
-## 常见问题
-
-### 1. ModuleNotFoundError: No module named 'src.utils.load'
-
-模型文件经过特殊处理后仅能用于本项目。**当前仅支持 Windows 环境下的 Python 3.6 / 3.8 / 3.10**。
-
-若需在其他环境中使用，可以传入自己训练的 ONNX 模型，将参数 `sign` 设为 `False` 并指定对应的 ONNX 模型路径：
-
-```python
-from src.captcha import TextSelectCaptcha
-
-cap = TextSelectCaptcha(per_path='xxx.onnx', yolo_path='xxx.onnx', sign=False)
-```
-
-### 2. 在其他验证码上效果不佳
-
-本项目模型仅针对特定类型的验证码进行训练，未对其他类型进行适配。您可以自行训练模型并集成到本项目中，欢迎使用本项目提供的训练流程。
-
 ## 效果演示
 
 ![演示动图](./docs/res.gif)
