@@ -10,6 +10,9 @@
 """
 import uvicorn
 from app import main
+print(f"📡 服务地址: http://localhost:8000")
+print(f"📚 API文档: http://localhost:8000/docs")
+print(f"📖 ReDoc文档: http://localhost:8000/redoc")
 
 if __name__ == '__main__':
     uvicorn.run(main.app, host="127.0.0.1", port=8000)

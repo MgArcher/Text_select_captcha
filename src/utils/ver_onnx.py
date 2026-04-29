@@ -140,7 +140,9 @@ def letterbox_image(image, size, letterbox_image):
 
 class PreONNX(object):
     def __init__(self, path, providers=None):
-        self.sess = path
+        if not providers:
+            providers = ['CPUExecutionProvider']
+        self.sess = onnxruntime.InferenceSession(path, providers=providers)
         self.loadSize = 512
         self.input_shape = [105, 105]
 
@@ -204,9 +206,38 @@ class PreONNX(object):
 
         return out
 
+    def reason_all_batch(self, image_1_list, image_2_list):
+        N = len(image_1_list)
+        M = len(image_2_list)
+
+        # 预处理所有图片，每个结果 shape = (1, C, H, W) 或 (1, H, W, C)
+        processed_1 = [self.set_img(img) for img in image_1_list]
+        processed_2 = [self.set_img(img) for img in image_2_list]
+
+        # 构造笛卡尔积 batch 列表
+        x1_list = []
+        x2_list = []
+        for p1 in processed_1:
+            x1_list.extend([p1] * M)  # 每个 char 复制 M 份
+            x2_list.extend(processed_2)  # 配对所有 target
+
+        # 沿 batch 维度（第0维）拼接，保持总维度为4
+        x1_batch = np.concatenate(x1_list, axis=0)  # (N*M, C, H, W)
+        x2_batch = np.concatenate(x2_list, axis=0)  # (N*M, C, H, W)
+
+        # 一次推理
+        out = self.sess.run(None, {"x1": x1_batch, "x2": x2_batch})
+        out = out[0]  # 形状 (N*M, 1) 或 (N*M,)
+        out = self.sigmoid(out)
+        out = out.flatten().tolist()
+
+        # 重塑为 N 行 M 列的相似度矩阵
+        scores = [out[i * M: (i + 1) * M] for i in range(N)]
+        return scores
+
 
 if __name__ == '__main__':
-    pre_onnx_path = "pre_model.onnx"
+    pre_onnx_path = "pre_model_v6.onnx"
     pre = PreONNX(pre_onnx_path, providers=['CPUExecutionProvider'])
     image_1 = r"datasets\bilbil\character2\char_1.jpg"
     image_2 = r"datasets\bilbil\character2\plan_4.jpg"

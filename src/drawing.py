@@ -11,58 +11,30 @@
 @file: drawing.py
 @time: 2021/3/28 15:31
 """
-import os
-import time
-import matplotlib.pyplot as plt
-import numpy as np
-from PIL import Image
-import PIL
-from io import BytesIO
-plt.rcParams['font.sans-serif'] = ['SimHei'] #用来正常显示中文标签
-plt.rcParams['axes.unicode_minus'] = False #用来正常显示负号
-number = 0
-
-def open_image(file):
-    if isinstance(file, np.ndarray):
-        img = Image.fromarray(file)
-    elif isinstance(file, bytes):
-        img = Image.open(BytesIO(file))
-    else:
-        img = Image.open(file)
-    img = img.convert('RGB')
-    img = np.array(img)
-    return img
+import cv2
+import random
 
 
-def draw(img_path, data=None, name=None):
-    "绘制识别结果"
-    image_ = open_image(img_path)
 
-    plt.imshow(image_, interpolation='none')
-    if data:
-        current_axis = plt.gca()
-        for box_ in data:
-            box = box_['crop']
-            x1, y1, x2, y2 = box
-            box_w = x2 - x1
-            box_h = y2 - y1
+def drow_img(image_path,result, save_image_path="res2.jpg"):
+    img = cv2.imread(image_path)
 
-            current_axis.add_patch(
-                plt.Rectangle((x1, y1), box_w, box_h, color='blue', fill=False, linewidth=2))
-            plt.text(
-                x1,
-                y1,
-                s='',
-                color="white",
-                verticalalignment="top",
-                bbox={"color": "black", "pad": 0},
-            )
-    # print(111)
-    plt.axis('off')
-    # global number
-    if name:
-        plt.savefig(f"{os.path.dirname(__file__)}/save_img/{name}.jpg")
-    # # plt.savefig(r"C:\CodeFiles\2021\OcrCard\imgs\draw_img2/" + os.path.basename(img_path))
-    # number = number + 1
-    # plt.clf()
-    plt.show()
+    def plot_one_box(x, img, color=None, label=None, line_thickness=None):
+        # Plots one bounding box on image img
+        tl = line_thickness or round(0.002 * (img.shape[0] + img.shape[1]) / 2) + 1  # line/font thickness
+        color = color or [random.randint(0, 255) for _ in range(3)]
+        c1, c2 = (int(x[0]), int(x[1])), (int(x[2]), int(x[3]))
+        cv2.rectangle(img, c1, c2, color, thickness=tl, lineType=cv2.LINE_AA)
+        if label:
+            tf = max(tl - 1, 1)  # font thickness
+            t_size = cv2.getTextSize(label, 0, fontScale=tl / 3, thickness=tf)[0]
+            c2 = c1[0] + t_size[0], c1[1] - t_size[1] - 3
+            cv2.rectangle(img, c1, c2, color, -1, cv2.LINE_AA)  # filled
+            cv2.putText(img, label, (c1[0], c1[1] - 2), 0, tl / 3, [225, 255, 255], thickness=tf, lineType=cv2.LINE_AA)
+        return img
+
+    colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(len(result))]
+    for i, xyxy in enumerate(result):
+        label = i + 1
+        img = plot_one_box(xyxy, img, label=str(label), color=colors[i], line_thickness=1)
+    cv2.imwrite(save_image_path,img)

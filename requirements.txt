@@ -8,6 +8,6 @@ cryptography
 uvicorn
 fastapi
 python-multipart
-opencv-python-headless==4.5.5.62
+opencv-python-headless
 Cython
 aiohttp

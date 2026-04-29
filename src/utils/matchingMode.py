@@ -8,70 +8,62 @@
 # version    ：python 3.6
 # Description：
 """
-
 import numpy as np
+import cv2
+from typing import List, Tuple
 
-
-def find_overall_index(matrix):
-    "寻找全局最大值数依次排序"
+def find_overall_index_fast(matrix: List[List[float]]) -> List[Tuple[int, int]]:
+    """贪心算法寻找全局最优解"""
     if not matrix:
         return []
-    # 转换为 NumPy 数组便于处理
-    matrix = np.array(matrix)
 
-    # 存储已选择的行和列索引
-    selected_rows = set()
-    selected_cols = set()
+    mat = np.array(matrix, dtype=np.float64)
+    n_rows, n_cols = mat.shape
+    k = min(n_rows, n_cols)
 
-    # 存储结果
+    # 存放结果
     index = []
 
-    # 获取矩阵的形状
-    num_rows, num_cols = matrix.shape
+    for _ in range(k):
+        # 找到当前全局最大值的扁平化索引
+        flat_idx = np.argmax(mat)
+        # 转换为二维行列坐标
+        row, col = divmod(flat_idx, n_cols)
 
-    # 查找每行每列的最大值
-    for _ in range(min(num_rows, num_cols)):
-        # 找到当前未选择的最大值
-        max_value = -np.inf
-        max_position = (-1, -1)  # 初始化为无效位置
+        index.append((row, col))
 
-        for i in range(num_rows):
-            if i in selected_rows:
-                continue
-            for j in range(num_cols):
-                if j in selected_cols:
-                    continue
-                if matrix[i, j] > max_value:
-                    max_value = matrix[i, j]
-                    max_position = (i, j)
+        # 将该行和该列的所有元素设为负无穷，禁止再被选中
+        mat[row, :] = -np.inf
+        mat[:, col] = -np.inf
 
-                    # 将找到的最大值位置加入结果
-        index.append(max_position)
-        # 将行和列标记为已选择
-        selected_rows.add(max_position[0])
-        selected_cols.add(max_position[1])
-    sorted_result = sorted(index, key=lambda x: x[0])
-    return sorted_result
+    # 按行排序（与原逻辑一致）
+    index.sort(key=lambda x: x[0])
+    return index
 
 
-def find_overall_zero_index(matrix):
-    "修改数组结果进行全局搜索"
-    slys = np.array(matrix)
-    index = []
-    for i in range(len(slys)):
-        # print(slys)
-        # 获取最大值的索引
-        max_index_2d = np.unravel_index(np.argmax(slys), slys.shape)
-        index.append(max_index_2d)
-        # print("转换后的二维索引：", max_index_2d)
-        # 将第一行变为0
-        slys[max_index_2d[0], :] = 0
-        # 将第二列变为0
-        slys[:, max_index_2d[1]] = 0
-    sorted_result = sorted(index, key=lambda x: x[0])
-    return sorted_result
+def open_image(file, flags=cv2.IMREAD_COLOR):
+    """
+    使用 OpenCV 读取图像，支持中文路径、numpy数组、bytes。
 
+    Args:
+        file: 输入，可以是文件路径（str 或 Path）、numpy 数组、bytes 数据
+        flags: cv2.imdecode 的标志，默认为彩色（cv2.IMREAD_COLOR）
 
-def find_row_index(matrix):
-    "按行寻找最大值"
-    pass
+    Returns:
+        np.ndarray: OpenCV 格式的图像（BGR 通道）
+    """
+    if isinstance(file, np.ndarray):
+        # 已经是 numpy 数组，直接返回（假设其为合法图像）
+        return file
+    elif isinstance(file, bytes):
+        # 从 bytes 数据解码
+        data = np.frombuffer(file, dtype=np.uint8)
+        img = cv2.imdecode(data, flags)
+        return img
+    else:
+        # 文件路径（字符串或 Path 对象），以二进制方式读取，避免中文路径问题
+        path = str(file)
+        with open(path, 'rb') as f:
+            data = np.frombuffer(f.read(), dtype=np.uint8)
+        img = cv2.imdecode(data, flags)
+        return img

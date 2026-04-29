@@ -13,7 +13,7 @@ import requests
 import json
 
 
-url = "http://localhost:8000/dianxuan/identify"
+url = "http://localhost:8000/api/v1/identify"
 
 image_path = "docs/res.jpg"
 with open(image_path, 'rb') as f:
@@ -29,6 +29,4 @@ print(json.dumps(data, ensure_ascii=False, indent=4))
 response = requests.post(url, json=data)
 print(response.text)
 
-data = json.dumps(data)
-response = requests.post(url, data=data)
-print(response.text)
+
