@@ -22,6 +22,7 @@
 import io
 import random
 import base64
+import time
 
 import aiohttp
 import cv2
@@ -29,8 +30,11 @@ import numpy as np
 from PIL import Image
 
 from src import captcha
-
+s = time.time()
 cap_model = captcha.TextSelectCaptcha()
+print("加载模型耗时：", time.time() - s)
+print("成功加载识别模型！")
+
 
 
 async def fetch(url):
