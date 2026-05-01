@@ -146,8 +146,10 @@ def login(page):
         # 当检测不到页面有验证码元素认为成功了
         wrap = page.wait_for_selector('//*[@class="geetest_item_wrap"]', timeout=500)
         print("识别失败！")
+        return False
     except Exception:
         print("识别成功！")
+        return True
 
 
 def main():
@@ -162,6 +164,25 @@ def main():
         # 保留页面一段时间，观察结果
         time.sleep(1000)
 
+def main2():
+    with sync_playwright() as p:
+        # 启动浏览器（headless=False 显示窗口，便于调试）
+        browser = p.chromium.launch(headless=False)
+        context = browser.new_context()
+        page = context.new_page()
+        k = 0
+        for i in range(100):
+            page.goto(URL)
+            # init(page)
+            s = login(page)
+            if s:
+                k += 1
+            print(k, i)
+        print(k)
+        print(k / 100)
+        # 保留页面一段时间，观察结果
+        time.sleep(1000)
+
 
 if __name__ == '__main__':
-    main()
+    main2()

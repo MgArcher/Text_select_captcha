@@ -17,7 +17,7 @@ from src.utils import matchingMode
 
 
 class TextSelectCaptcha(object):
-    def __init__(self, per_path: str = 'pre_model_v6.onnx', yolo_path: str = 'best_v3.onnx') -> None:
+    def __init__(self, per_path: str = 'pre_model_v7.onnx', yolo_path: str = 'best_v3.onnx') -> None:
         """
         初始化识别器，加载 ONNX 模型。
 
@@ -60,6 +60,7 @@ if __name__ == '__main__':
     from src.drawing import drow_img
     cap = TextSelectCaptcha()
     image_path = r"../docs/res.jpg"
+    image_path = r"D:\captcha/5cf82cae41fc4f18bd257f96dece6e34.jpg"
     result = cap.run(image_path)
     print(result)
     drow_img(image_path, result)
