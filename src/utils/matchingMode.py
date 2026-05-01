@@ -12,6 +12,7 @@ import numpy as np
 import cv2
 from typing import List, Tuple
 
+
 def find_overall_index_fast(matrix: List[List[float]]) -> List[Tuple[int, int]]:
     """贪心算法寻找全局最优解"""
     if not matrix:
@@ -20,23 +21,15 @@ def find_overall_index_fast(matrix: List[List[float]]) -> List[Tuple[int, int]]:
     mat = np.array(matrix, dtype=np.float64)
     n_rows, n_cols = mat.shape
     k = min(n_rows, n_cols)
-
-    # 存放结果
     index = []
-
     for _ in range(k):
         # 找到当前全局最大值的扁平化索引
         flat_idx = np.argmax(mat)
         # 转换为二维行列坐标
         row, col = divmod(flat_idx, n_cols)
-
         index.append((row, col))
-
-        # 将该行和该列的所有元素设为负无穷，禁止再被选中
         mat[row, :] = -np.inf
         mat[:, col] = -np.inf
-
-    # 按行排序（与原逻辑一致）
     index.sort(key=lambda x: x[0])
     return index
 

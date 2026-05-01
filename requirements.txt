@@ -1,7 +1,6 @@
 numpy
 matplotlib
 pillow
-selenium
 requests
 onnxruntime
 cryptography
@@ -11,3 +10,4 @@ python-multipart
 opencv-python-headless
 Cython
 aiohttp
+playwright

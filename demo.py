@@ -19,7 +19,6 @@ cap = TextSelectCaptcha()
 print("加载模型耗时：", time.time() - s)
 
 image_path = "docs/res.jpg"
-image_path = r"D:\captcha\c972363d448b4400a42be924bb7577f2.jpg"
 s = time.time()
 
 result = cap.run(image_path)

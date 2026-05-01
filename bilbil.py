@@ -164,25 +164,6 @@ def main():
         # 保留页面一段时间，观察结果
         time.sleep(1000)
 
-def main2():
-    with sync_playwright() as p:
-        # 启动浏览器（headless=False 显示窗口，便于调试）
-        browser = p.chromium.launch(headless=False)
-        context = browser.new_context()
-        page = context.new_page()
-        k = 0
-        for i in range(100):
-            page.goto(URL)
-            # init(page)
-            s = login(page)
-            if s:
-                k += 1
-            print(k, i)
-        print(k)
-        print(k / 100)
-        # 保留页面一段时间，观察结果
-        time.sleep(1000)
-
 
 if __name__ == '__main__':
-    main2()
+    main()

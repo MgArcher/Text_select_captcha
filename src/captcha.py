@@ -31,6 +31,11 @@ class TextSelectCaptcha(object):
         self.yolo = yolo_onnx.YOLO(yolo_path)
         self.pre = ver_onnx.PreONNX(per_path)
 
+    def detection(self, image_path: str) -> List[List[float]]:
+        img = matchingMode.open_image(image_path)
+        data = self.yolo.inference(img)
+        return data
+
     def run(self, image_path: str) -> List[List[float]]:
         img = matchingMode.open_image(image_path)
         data = self.yolo.inference(img)
@@ -60,7 +65,6 @@ if __name__ == '__main__':
     from src.drawing import drow_img
     cap = TextSelectCaptcha()
     image_path = r"../docs/res.jpg"
-    image_path = r"D:\captcha/5cf82cae41fc4f18bd257f96dece6e34.jpg"
     result = cap.run(image_path)
     print(result)
     drow_img(image_path, result)

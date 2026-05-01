@@ -15,7 +15,7 @@ from typing import List, Tuple, Union, Any
 
 
 class YOLO:
-    def __init__(self, model_path: str, conf_threshold: float = 0.5) -> None:
+    def __init__(self, model_path: str, conf_threshold: float = 0.3) -> None:
         """
         初始化 YOLO26 ONNX 模型。
 
