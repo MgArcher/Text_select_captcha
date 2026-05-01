@@ -43,8 +43,8 @@
 
 [「道满PythonAI」](https://www.daomanpy.com/) - 2026 领先的中文 Python 与 AI 体系化教程。涵盖 Python 基础、Web 后端开发、高阶爬虫、JS 逆向、计算机视觉、NLP 及大模型 (LLM) 实战，打通从零基础到 AI 全栈工程师的职业路径。
 
-![道满PythonAI Logo](./docs/46354c4191deebbf378736cfc35cc749.png)
 
+<img src="./docs/46354c4191deebbf378736cfc35cc749.png" alt="道满PythonAI Logo" style="width: 50%;" />
 ## 📋 快速开始
 
 ### 环境配置
@@ -274,7 +274,7 @@ result_dict = cap.run_dict(image_path)
 
 [「道满PythonAI」](https://www.daomanpy.com/) - 2026 领先的中文 Python 与 AI 体系化教程。涵盖 Python 基础、Web 后端开发、高阶爬虫、JS 逆向、计算机视觉、NLP 及大模型 (LLM) 实战，打通从零基础到 AI 全栈工程师的职业路径。
 
-![道满PythonAI Logo](./docs/46354c4191deebbf378736cfc35cc749.png)
+<img src="./docs/46354c4191deebbf378736cfc35cc749.png" alt="道满PythonAI Logo" style="width: 50%;" />
 
 ## 🌟 如果你喜欢这个项目
 
