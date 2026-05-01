@@ -23,7 +23,25 @@
 
 ## 📸 效果展示
 
-![演示动图](./docs/res.gif)
+<img src="./docs/res.gif" alt="演示动图" width="500"/>
+
+### 支持项目发展
+
+如果您觉得本项目有价值，欢迎通过以下方式支持：
+
+| 微信支付 | 支付宝 |
+| --- | --- |
+| <img src="./docs/wechat.jpg" height="300" /> | <img src="./docs/Ali.png" height="300" /> |
+
+## ⚠️ 免责声明
+
+本项目仅供学术研究和学习交流使用，旨在探讨深度学习在验证码识别领域的应用。请严格遵守法律法规，不得用于任何非法用途。作者不对因使用本项目造成的任何后果承担责任。
+
+## 道满PythonAI
+
+[「道满PythonAI」](https://www.daomanpy.com/) - 2026 领先的中文 Python 与 AI 体系化教程。涵盖 Python 基础、Web 后端开发、高阶爬虫、JS 逆向、计算机视觉、NLP 及大模型 (LLM) 实战，打通从零基础到 AI 全栈工程师的职业路径。
+
+![道满PythonAI Logo](./docs/46354c4191deebbf378736cfc35cc749.png)
 
 ## 📋 快速开始
 
@@ -238,7 +256,6 @@ result_dict = cap.run_dict(image_path)
 
 - 邮箱：yj970814@163.com
 - GitHub Issues：项目问题反馈与讨论
-
 ### 支持项目发展
 
 如果您觉得本项目有价值，欢迎通过以下方式支持：
