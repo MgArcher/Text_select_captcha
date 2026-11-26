@@ -1,0 +1,43 @@
+# yolo26n 全量数据（无留出集）微调 20 轮
+# v8 检测 + 识别流水线配置，模型路径统一相对项目根目录
+
+[detector]
+model = "../yolo26_click/weights/yolo26n_all_e2e.onnx"
+classes = ["target", "title", "char"]
+format = "end2end"               # end2end=[1,300,6] xyxy,score,cls；yolov5=[1,N,5+nc]
+conf = 0.3
+iou = 0.5
+input_size = 640
+pad = 114
+interp = "cubic"                 # 与线上 v3 检测器一致
+threads = "auto"                 # "auto"=按 CPU 核数（上限 8）；也可写死如 4
+
+[encoder]
+model = "model/v8_encoder.onnx"  # [B,4,112,112] -> [B,256]（已 L2 归一化）
+input_size = 112
+channels = 4                     # RGB + Sobel 第 4 通道
+pad_value = 128
+standardize = "per_image_channel"
+sobel_norm = "fixed"
+threads = "auto"                 # "auto"=按 CPU 核数（上限 8）；也可写死如 4
+max_batch = 32
+
+[scheme]
+target_cls = 0                   # 场景字（待点击）
+title_cls = 1                    # 提示条
+prompt_cls = 2                   # 提示字（白底黑字）
+crop_pad = 1
+use_title_filter = true
+adaptive_conf = true             # 提示字漏检时用低阈值补检
+fallback_conf = 0.15
+
+[server]
+host = "0.0.0.0"
+port = 8000
+max_image_mb = 5
+
+[log]
+dir = "logs"                     # 相对项目根目录
+level = "INFO"
+max_mb = 10                      # 单个文件上限，超过就滚动
+backups = 5                      # 保留几个历史文件

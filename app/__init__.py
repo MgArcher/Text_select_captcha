@@ -1,14 +1,9 @@
 # !/usr/bin/env python
 # -*-coding:utf-8 -*-
 
-"""
-# File       : __init__.py.py
-# Time       ：2024/8/14 16:55
-# Author     ：yujia
-# version    ：python 3.6
-# Description：
-"""
-from src import captcha
+"""Web 服务层：HTTP 协议、路由、模型、业务编排。
 
-# 初始化时候加载模型
-cap_model = captcha.TextSelectCaptcha()
+模型的加载与计算全在 `src/`（推理层）；依赖单向 `app -> src`，
+`src/` 不允许 import `app/`，也不允许 import FastAPI。
+"""
+__version__ = "2.1.0"

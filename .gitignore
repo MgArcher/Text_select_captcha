@@ -1,21 +1,22 @@
-#过滤文件夹Debug,Release,obj
+# 编辑器 / Python 缓存
 .idea/
+.vscode/
 __pycache__/
-python_src/
+*.pyc
+.pytest_cache/
+
+# 本地数据与临时产物
 data/
-errot/
-ceshi.py
-ss.py
-ss2.py
-ss3.py
-a.py
+verify_data/
 character1/
 make_data/
-src/utils/load.py
-model/*.onnx
-demo2.py
-verify.py
-verify_data.txt
-verify_data/
-res1.jpg
-res2.jpg
+logs/
+*.log
+res*.jpg
+out*.jpg
+
+# 本地开发辅助，不纳入版本管理（确需入库时用 git add -f）
+tests/
+tools/
+
+# 模型权重已入库（model/best_v3.onnx、model/v8_encoder.onnx），不再忽略

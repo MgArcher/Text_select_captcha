@@ -1,13 +1,23 @@
+# 推理层（src/）：只需 ONNX Runtime + OpenCV + Pillow，CPU 即可
 numpy
-matplotlib
 pillow
-requests
 onnxruntime
-cryptography
-uvicorn
-fastapi
-python-multipart
 opencv-python-headless
-Cython
-aiohttp
-playwright
+
+# 服务层（app/）：Web 框架只在这里出现，只用推理能力时可以整个不装
+fastapi
+uvicorn
+python-multipart
+
+# Python 3.10 及更早读 TOML 需要 tomli（3.11+ 用内置 tomllib）
+tomli; python_version < "3.11"
+
+# 测试
+pytest
+httpx
+
+# 可选：bilbil.py（B 站登录示例）
+#   文字点选只需要 playwright：
+#     pip install playwright && python -m playwright install chromium
+#   遇到滑动拼图才需要 ddddocr：
+#     pip install ddddocr

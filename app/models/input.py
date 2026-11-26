@@ -1,34 +1,29 @@
 # !/usr/bin/env python
 # -*-coding:utf-8 -*-
 
-"""
-# File       : output.py.py
-# Time       ：2026/4/29 15:52
-# Author     ：yujia
-# version    ：python 3.6
-# Description：
-"""
+"""请求模型（保持历史字段）。
 
-from pydantic import BaseModel, Field
+没有 `inputChars`：提示字由模型从图上检测，传提示文字既不参与推理也无法保证一致。
+老调用方多传会被忽略（pydantic 默认忽略未知键）。
+"""
+from __future__ import annotations
+
 from typing import Optional
 
 from pydantic import BaseModel, Field
-from typing import Optional
+
 
 class Input(BaseModel):
-    dataType: int = Field(
-        default=1,
-        example=1,
-        description="文件类型：1:链接地址，2:文件字节流转base64(base64不含头)"
-    )
+    """识别请求体。dataType=1 -> URL；2 -> base64（可带 data: 前缀）。"""
+
+    dataType: int = Field(1, examples=[1], description="1=URL，2=base64")
     imageSource: str = Field(
-        default="https://static.geetest.com/captcha_v3/batch/v3/140155/2026-04-29T15/word/474b661c0cd74331b14937fef099eb19.jpg?challenge=894235a05cd62c9ec2e9c6ae5fdb4e22",
-        example="https://static.geetest.com/captcha_v3/batch/v3/140155/2026-04-29T15/word/474b661c0cd74331b14937fef099eb19.jpg?challenge=894235a05cd62c9ec2e9c6ae5fdb4e22",
-        description="源文件地址或 base64 编码的字节流"
+        ...,
+        examples=["https://static.geetest.com/captcha_v3/batch/v3/158267/word/xxxx.jpg"],
+        description="图片地址或 base64 编码的字节流",
     )
     imageID: Optional[str] = Field(
-        default=None,
-        example="string",
-        description="图片名称或 id"
+        None,
+        examples=["string"],
+        description="可选。传了原样回传；不传则由服务端生成并回传",
     )
-
